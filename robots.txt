@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wanjunsim3-droid.github.io/magok/sitemap.xml
