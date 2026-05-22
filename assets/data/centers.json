@@ -47,7 +47,7 @@
       "status": "분양중",
       "available": 8,
       "price_per_sqm": 3100000,
-      "image": "assets/images/botanic_2.png",
+      "image": "assets/images/botanic_main.png",
       "detailPage": "center.html?id=botanicgate",
       "features": [
         "마곡 지구 내 합리적 분양가 및 최상의 가성비",
@@ -69,12 +69,20 @@
       },
       "gallery": [
         {
-          "tab": "사업개요 및 입지",
-          "image": "assets/images/botanic_2.png"
+          "tab": "대표 조감도",
+          "image": "assets/images/botanic_main.png"
+        },
+        {
+          "tab": "사업개요 및 배치도",
+          "image": "assets/images/botanic_outline.png"
+        },
+        {
+          "tab": "광역 입지환경",
+          "image": "assets/images/botanic_location.png"
         },
         {
           "tab": "경쟁상품 비교분석",
-          "image": "assets/images/botanic_3.png"
+          "image": "assets/images/botanic_comparison.png"
         }
       ]
     },
