@@ -6,7 +6,7 @@
       "status": "분양중",
       "available": 12,
       "price_per_sqm": 3000000,
-      "image": "assets/images/ipark_outline.png",
+      "image": "assets/images/ipark_5.png",
       "detailPage": "center.html?id=ipark",
       "features": [
         "마곡지구 내 R&D형 최초의 지식산업센터",
@@ -28,12 +28,12 @@
       },
       "gallery": [
         {
-          "tab": "사업개요",
-          "image": "assets/images/ipark_outline.png"
+          "tab": "입지 및 사업개요",
+          "image": "assets/images/ipark_5.png"
         },
         {
-          "tab": "용도별 구성",
-          "image": "assets/images/ipark_composition.png"
+          "tab": "도면 및 설계특징",
+          "image": "assets/images/ipark_6.png"
         }
       ]
     },
@@ -43,7 +43,7 @@
       "status": "분양중",
       "available": 8,
       "price_per_sqm": 3100000,
-      "image": "assets/images/botanic_outline.png",
+      "image": "assets/images/botanic_2.png",
       "detailPage": "center.html?id=botanicgate",
       "features": [
         "마곡 지구 내 합리적 분양가 및 최상의 가성비",
@@ -65,12 +65,12 @@
       },
       "gallery": [
         {
-          "tab": "사업개요",
-          "image": "assets/images/botanic_outline.png"
+          "tab": "사업개요 및 입지",
+          "image": "assets/images/botanic_2.png"
         },
         {
-          "tab": "경쟁상품 비교",
-          "image": "assets/images/botanic_comparison.png"
+          "tab": "경쟁상품 비교분석",
+          "image": "assets/images/botanic_3.png"
         }
       ]
     },
@@ -80,7 +80,7 @@
       "status": "분양예정",
       "available": 5,
       "price_per_sqm": 3200000,
-      "image": "assets/images/newv_cover.png",
+      "image": "assets/images/newv_1.png",
       "detailPage": "center.html?id=newcloudhill",
       "features": [
         "서울주택공사(SH) 공모사업의 높은 신뢰성과 안정성",
@@ -101,16 +101,16 @@
       },
       "gallery": [
         {
-          "tab": "조감도",
-          "image": "assets/images/newv_cover.png"
+          "tab": "단지 조감도",
+          "image": "assets/images/newv_1.png"
         },
         {
-          "tab": "투시도",
-          "image": "assets/images/newv_perspective.png"
+          "tab": "입지 프리미엄",
+          "image": "assets/images/newv_2.png"
         },
         {
-          "tab": "사업개요",
-          "image": "assets/images/newv_outline.png"
+          "tab": "사업 상세개요",
+          "image": "assets/images/newv_6.png"
         }
       ]
     },
@@ -120,7 +120,7 @@
       "status": "분양중",
       "available": 10,
       "price_per_sqm": 2950000,
-      "image": "assets/images/d18b_cover.png",
+      "image": "assets/images/d18b_1.png",
       "detailPage": "center.html?id=d18b",
       "features": [
         "마곡지구 마지막 9호선 역세권 지식산업센터",
@@ -138,12 +138,12 @@
       },
       "gallery": [
         {
-          "tab": "조감도",
-          "image": "assets/images/d18b_cover.png"
+          "tab": "조감도 및 입지",
+          "image": "assets/images/d18b_1.png"
         },
         {
-          "tab": "사업개요",
-          "image": "assets/images/d18b_outline.png"
+          "tab": "사업개요 안내",
+          "image": "assets/images/d18b_2.png"
         }
       ]
     }
