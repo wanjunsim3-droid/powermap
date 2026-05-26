@@ -40,6 +40,16 @@ function cleanArea(val) {
   return isNaN(num) ? 0 : num;
 }
 
+function shouldSkipRow(row) {
+  if (!row || row.length === 0 || !row[0]) return true;
+  const col0 = String(row[0]).trim();
+
+  if (col0 === '주소' || col0.startsWith('주소지') || col0 === '주소 ' || col0 === '주소지') return true;
+  if (/^\d+월\s*\d+일$/.test(col0)) return true;
+
+  return false;
+}
+
 // Extract hyperlink Target if present, otherwise fallback to generating Naver Map search link
 function getMapUrl(sheet, r, c, val, address) {
   const cellAddress = XLSX.utils.encode_cell({ r, c });
@@ -51,6 +61,26 @@ function getMapUrl(sheet, r, c, val, address) {
     url = String(val).trim();
   }
 
+  // Repair corrupted Latin1 target URL
+  if (url) {
+    try {
+      const unescaped = decodeURIComponent(url);
+      const repaired = Buffer.from(unescaped, 'latin1').toString('utf8');
+      const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(repaired);
+      const origHasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(url);
+      if (hasKorean && !origHasKorean) {
+        url = repaired;
+      }
+    } catch (e) {
+      try {
+        const repaired = Buffer.from(url, 'latin1').toString('utf8');
+        if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(repaired) && !/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(url)) {
+          url = repaired;
+        }
+      } catch (err) {}
+    }
+  }
+
   // If URL is not valid, generate a Naver Map search URL from the address
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     if (address && address.trim() !== '') {
@@ -60,6 +90,21 @@ function getMapUrl(sheet, r, c, val, address) {
     }
     return '';
   }
+
+  // If the repaired/original URL is a search URL containing unencoded Korean, encode it properly
+  if (url.startsWith('https://map.naver.com/p/search/') || url.startsWith('https://map.naver.com/v5/search/')) {
+    const prefix = url.startsWith('https://map.naver.com/p/search/') 
+      ? 'https://map.naver.com/p/search/' 
+      : 'https://map.naver.com/v5/search/';
+    const queryPart = url.substring(prefix.length);
+    try {
+      const decodedQuery = decodeURIComponent(queryPart);
+      url = prefix + encodeURIComponent(decodedQuery);
+    } catch (e) {
+      url = prefix + encodeURIComponent(queryPart);
+    }
+  }
+
   return url;
 }
 
@@ -114,7 +159,7 @@ db.serialize(() => {
       // Row 0 is header: [주소, 네이버지도, 층수, 상호, 평수, 보증금, 임대료, 권리금, 관리비, 비고]
       for (let i = 1; i < data.length; i++) {
         const row = data[i];
-        if (!row || row.length === 0 || !row[0]) continue; // skip empty or no address rows
+        if (shouldSkipRow(row)) continue;
         
         const address = row[0] ? String(row[0]).trim() : '';
         const mapUrl = getMapUrl(sheet, i, 1, row[1], address);
@@ -135,8 +180,7 @@ db.serialize(() => {
       // (Note: there is no "상호" in this sheet)
       for (let i = 2; i < data.length; i++) {
         const row = data[i];
-        if (!row || row.length === 0 || !row[0]) continue;
-        if (row[0] === '주소') continue; // Header repeat check
+        if (shouldSkipRow(row)) continue;
         
         const address = row[0] ? String(row[0]).trim() : '';
         const mapUrl = getMapUrl(sheet, i, 1, row[1], address);
@@ -156,7 +200,7 @@ db.serialize(() => {
       // Row 0 is header: [주소, 지도, 층수, 상호, 평수, 보증금, 임대료, 권리금, 관리비, 비고]
       for (let i = 1; i < data.length; i++) {
         const row = data[i];
-        if (!row || row.length === 0 || !row[0]) continue;
+        if (shouldSkipRow(row)) continue;
 
         const address = row[0] ? String(row[0]).trim() : '';
         const mapUrl = getMapUrl(sheet, i, 1, row[1], address);
@@ -176,7 +220,7 @@ db.serialize(() => {
       // Row 0 is already data: ['광진구 중곡동 31-1', '지도', '1층', '교동쿡과 부동산', 28, 3000, 230, 6000, '-', 'Unnamed: 9']
       for (let i = 0; i < data.length; i++) {
         const row = data[i];
-        if (!row || row.length === 0 || !row[0]) continue;
+        if (shouldSkipRow(row)) continue;
 
         const address = row[0] ? String(row[0]).trim() : '';
         const mapUrl = getMapUrl(sheet, i, 1, row[1], address);

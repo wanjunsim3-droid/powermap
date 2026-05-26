@@ -29,6 +29,16 @@ function cleanArea(val) {
   return isNaN(num) ? 0 : num;
 }
 
+function shouldSkipRow(row) {
+  if (!row || row.length === 0 || !row[0]) return true;
+  const col0 = String(row[0]).trim();
+
+  if (col0 === '주소' || col0.startsWith('주소지') || col0 === '주소 ' || col0 === '주소지') return true;
+  if (/^\d+월\s*\d+일$/.test(col0)) return true;
+
+  return false;
+}
+
 function getMapUrl(sheet, r, c, val, address) {
   const cellAddress = XLSX.utils.encode_cell({ r, c });
   const cell = sheet[cellAddress];
@@ -39,6 +49,26 @@ function getMapUrl(sheet, r, c, val, address) {
     url = String(val).trim();
   }
 
+  // Repair corrupted Latin1 target URL
+  if (url) {
+    try {
+      const unescaped = decodeURIComponent(url);
+      const repaired = Buffer.from(unescaped, 'latin1').toString('utf8');
+      const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(repaired);
+      const origHasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(url);
+      if (hasKorean && !origHasKorean) {
+        url = repaired;
+      }
+    } catch (e) {
+      try {
+        const repaired = Buffer.from(url, 'latin1').toString('utf8');
+        if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(repaired) && !/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(url)) {
+          url = repaired;
+        }
+      } catch (err) {}
+    }
+  }
+
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     if (address && address.trim() !== '') {
       const cleanAddr = address.replace(/\*공실/g, '').replace(/\*/g, '').trim();
@@ -46,6 +76,21 @@ function getMapUrl(sheet, r, c, val, address) {
     }
     return '';
   }
+
+  // If the repaired/original URL is a search URL containing unencoded Korean, encode it properly
+  if (url.startsWith('https://map.naver.com/p/search/') || url.startsWith('https://map.naver.com/v5/search/')) {
+    const prefix = url.startsWith('https://map.naver.com/p/search/') 
+      ? 'https://map.naver.com/p/search/' 
+      : 'https://map.naver.com/v5/search/';
+    const queryPart = url.substring(prefix.length);
+    try {
+      const decodedQuery = decodeURIComponent(queryPart);
+      url = prefix + encodeURIComponent(decodedQuery);
+    } catch (e) {
+      url = prefix + encodeURIComponent(queryPart);
+    }
+  }
+
   return url;
 }
 
@@ -60,7 +105,7 @@ workbook.SheetNames.forEach((sheetName) => {
   if (sheetName === '26년') {
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
-      if (!row || row.length === 0 || !row[0]) continue;
+      if (shouldSkipRow(row)) continue;
       const address = String(row[0]).trim();
       allProperties.push({
         id: idCounter++,
@@ -81,8 +126,7 @@ workbook.SheetNames.forEach((sheetName) => {
   else if (sheetName === '11월27일') {
     for (let i = 2; i < data.length; i++) {
       const row = data[i];
-      if (!row || row.length === 0 || !row[0]) continue;
-      if (row[0] === '주소') continue;
+      if (shouldSkipRow(row)) continue;
       const address = String(row[0]).trim();
       allProperties.push({
         id: idCounter++,
@@ -103,7 +147,7 @@ workbook.SheetNames.forEach((sheetName) => {
   else if (sheetName === 'Sheet1') {
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
-      if (!row || row.length === 0 || !row[0]) continue;
+      if (shouldSkipRow(row)) continue;
       const address = String(row[0]).trim();
       allProperties.push({
         id: idCounter++,
@@ -124,7 +168,7 @@ workbook.SheetNames.forEach((sheetName) => {
   else if (sheetName === 'Sheet2') {
     for (let i = 0; i < data.length; i++) {
       const row = data[i];
-      if (!row || row.length === 0 || !row[0]) continue;
+      if (shouldSkipRow(row)) continue;
       const address = String(row[0]).trim();
       allProperties.push({
         id: idCounter++,
