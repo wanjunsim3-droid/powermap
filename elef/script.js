@@ -95,36 +95,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 2. Gallery Images Data Definition
     // ==========================================
-    // 28 images in the local workspace directory
     const imagesData = [
-        { file: 'KakaoTalk_20260624_134916011.jpg', category: 'catalog', title: '엘리프 마곡 가든스퀘어 메인 조감도', desc: '자연과 테크가 어우러진 마곡 18B 블록 프리미엄 오피스 타워' },
-        { file: 'KakaoTalk_20260624_134916011_01.jpg', category: 'catalog', title: '고품격 로비 라운지', desc: '입주사의 품격을 높여주는 최고급 마감재의 인테리어 디자인' },
-        { file: 'KakaoTalk_20260624_134916011_02.jpg', category: 'catalog', title: '공중 정원 (가든스퀘어)', desc: '도심 속 휴식을 제공하는 입체적인 녹지 테라스 정원 구성' },
-        { file: 'KakaoTalk_20260624_134916011_03.jpg', category: 'catalog', title: '가든스퀘어 조감도 B', desc: '자연친화적인 디자인이 적용된 빌딩 전경' },
-        { file: 'KakaoTalk_20260624_134916011_04.jpg', category: 'catalog', title: '입지 환경 상세 설명', desc: '강서 마곡 R&D 산업단지의 새로운 심장부' },
-        { file: 'KakaoTalk_20260624_134916011_05.jpg', category: 'catalog', title: '특장점 개요', desc: '마곡에 들어서는 압도적 스케일의 지식산업센터 안내' },
-        { file: 'KakaoTalk_20260624_134916011_06.jpg', category: 'catalog', title: '계룡건설 브랜드 소개', desc: '신뢰의 계룡건설이 짓는 고품격 오피스 브랜드 엘리프' },
-        { file: 'KakaoTalk_20260624_134916011_07.jpg', category: 'catalog', title: 'MD 구성 방향', desc: '상가 및 편의시설, 업무지원시설의 완벽한 밸런스' },
-        { file: 'KakaoTalk_20260624_134916011_08.jpg', category: 'catalog', title: '층별 혜택 소개', desc: '층별 쾌적한 테라스 설계와 맞춤형 동선' },
-        { file: 'KakaoTalk_20260624_134916011_09.jpg', category: 'catalog', title: '세부 스펙 가이드', desc: '안전하고 친환경적인 최첨단 빌딩 관리 시스템' },
-        { file: 'KakaoTalk_20260624_134916011_10.jpg', category: 'catalog', title: '주차 및 교통 인프라', desc: '여유로운 주차 공간과 쾌속 물류 하역 시스템' },
-        { file: 'KakaoTalk_20260624_134916011_11.jpg', category: 'premium', title: '마곡 핵심 클러스터 연계', desc: '대기업 연구소(LG, 코오롱 등)와 인접한 비즈니스 시너지 효과' },
-        { file: 'KakaoTalk_20260624_134916011_12.jpg', category: 'premium', title: '서울 수목원(보타닉공원) 프리미엄', desc: '여의도 2배 규모 서울식물원 조망 및 힐링 라이프' },
-        { file: 'KakaoTalk_20260624_134916011_13.jpg', category: 'premium', title: '교통 허브 네트워크', desc: '김포공항 5분, 올림픽대로 및 강변북로 직결' },
-        { file: 'KakaoTalk_20260624_134916011_14.jpg', category: 'premium', title: '양천향교역 및 발산역 교통 인프라', desc: '9호선 양천향교역 및 5호선 발산역으로 연결되는 더블 역세권' },
-        { file: 'KakaoTalk_20260624_134916011_15.jpg', category: 'premium', title: '강서 첨단 R&D 배후수요', desc: '풍부한 배후 인구와 고임금 연구 인프라 집중 구역' },
-        { file: 'KakaoTalk_20260624_134916011_16.jpg', category: 'premium', title: '지식산업센터 세제 혜택 가이드', desc: '취득세, 재산세 감면 및 장기 저리 정책금융 지원 안내' },
-        { file: 'KakaoTalk_20260624_134916011_17.jpg', category: 'premium', title: '비즈니스 지원 혜택', desc: '기업 경쟁력을 극대화할 수 있는 합리적 세제 혜택' },
-        { file: 'KakaoTalk_20260624_134916011_18.jpg', category: 'premium', title: '섹션오피스 활용 구조', desc: '필요한 면적만큼 분할 가능한 맞춤형 섹션오피스 설계' },
-        { file: 'KakaoTalk_20260624_134916011_19.jpg', category: 'premium', title: '사무실 인테리어 제안', desc: '업무 집중도와 효율을 높여주는 스마트 오피스 시안' },
-        { file: 'KakaoTalk_20260624_134916011_20.jpg', category: 'floorplan', title: '지하 1층 평면도', desc: '구내식당, 주차장 및 지원시설 입지 안내' },
-        { file: 'KakaoTalk_20260624_134916011_21.jpg', category: 'floorplan', title: '지상 1층 평면도', desc: '스트리트형 상가 구성 및 접근성 최상 레이아웃' },
-        { file: 'KakaoTalk_20260624_134916011_22.jpg', category: 'floorplan', title: '지상 2층 ~ 3층 평면도', desc: '테라스형 업무 및 지원시설 층 평면 설계' },
-        { file: 'KakaoTalk_20260624_134916011_23.jpg', category: 'floorplan', title: '지상 4층 ~ 6층 평면도', desc: '쾌적한 오피스 구성 및 층간 연결성 확보' },
-        { file: 'KakaoTalk_20260624_134916011_24.jpg', category: 'floorplan', title: '지상 7층 ~ 9층 평면도', desc: '마곡 보타닉파크 탁 트인 조망의 로열층 섹션오피스' },
-        { file: 'KakaoTalk_20260624_134916011_25.jpg', category: 'floorplan', title: '지상 10층 평면도 (스카이 라인)', desc: '최상층 프리미엄 펜트하우스형 오피스 평면' },
-        { file: 'KakaoTalk_20260624_134916011_26.jpg', category: 'floorplan', title: '동선 및 입체 단면도', desc: '빌딩 전체 입체감과 주 동선을 한눈에 파악' },
-        { file: 'KakaoTalk_20260624_134916011_27.jpg', category: 'floorplan', title: '엘리프 가든스퀘어 전체 배치도', desc: '대지 경계 및 빌딩 진출입로, 외부 공개공지 배치' }
+        // 1. 카탈로그 (catalog) - 루트 폴더의 대표 홍보 이미지들
+        { file: 'KakaoTalk_20260624_134916011.jpg', category: 'catalog', title: '엘리프 마곡 가든스퀘어 메인 조감도', desc: '자연과 테크가 어우러진 마곡의 랜드마크 프리미엄 오피스 타워' },
+        { file: 'KakaoTalk_20260624_134916011_01.jpg', category: 'catalog', title: '고품격 로비 라운지', desc: '입주사의 품격을 극대화해주는 웅장한 로비 공간 설계' },
+        { file: 'KakaoTalk_20260624_134916011_02.jpg', category: 'catalog', title: '공중 테라스 정원 (가든스퀘어)', desc: '지상층 입체적인 녹지 테라스로 쾌적한 휴식 공간 선사' },
+        { file: 'KakaoTalk_20260624_134916011_03.jpg', category: 'catalog', title: '가든스퀘어 전체 전경', desc: '자연친화적 디자인 테마와 현대적 감각의 어반 오피스' },
+        { file: 'KakaoTalk_20260624_134916011_05.jpg', category: 'catalog', title: '비즈니스 특장점 요약', desc: '마곡 최고의 미래가치와 프리미엄 지식산업센터 혜택' },
+        { file: 'KakaoTalk_20260624_134916011_06.jpg', category: 'catalog', title: '계룡건설 브랜드 소개', desc: '신뢰의 메이저 브랜드 계룡건설이 짓는 책임 준공 보증' },
+        { file: 'KakaoTalk_20260624_134916011_07.jpg', category: 'catalog', title: '최적의 MD 구성 계획', desc: '지상 1층 편의점, 메이저 카페, 약국 및 지하 구내식당 구성' },
+        { file: 'KakaoTalk_20260624_134916011_08.jpg', category: 'catalog', title: '층별 쾌적한 동선 설계', desc: '원활한 물류 및 엘리베이터 동선, 친환경 비즈니스 특화' },
+
+        // 2. 입지 및 프리미엄 (premium) - '입지및 프리미엄' 폴더 내 정돈된 파일들
+        { file: '입지및 프리미엄/page_2.jpg', category: 'premium', title: '광역 입지 환경 안내', desc: '마곡 18B 블록, 신도심 중심축에 우뚝 서는 최상의 비즈니스 밸리' },
+        { file: '입지및 프리미엄/page_3.jpg', category: 'premium', title: '교통망 분석 자료', desc: '9호선 양천향교역 및 5호선 발산역 도보 7분의 완벽한 더블 역세권' },
+        { file: '입지및 프리미엄/page_4.jpg', category: 'premium', title: '배후 수요 및 개발 호재', desc: '대기업 R&D 센터 및 연구 단지 연계를 통한 막강한 산업 클러스터 시너지' },
+        { file: '입지및 프리미엄/page_5.jpg', category: 'premium', title: '서울식물원 에코 프리미엄', desc: '도보거리 보타닉 파크(서울식물원) 인접으로 쾌적한 친환경 오피스 라이프' },
+        { file: '입지및 프리미엄/page_6.jpg', category: 'premium', title: '비즈니스 경쟁력 분석', desc: '비교할 수 없는 교통의 중심이자 성공 투자의 핵심 인프라 확보' },
+        { file: '입지및 프리미엄/page_7.jpg', category: 'premium', title: '지식산업센터 특별 세제 혜택', desc: '취득세 및 재산세 감면, 장기 저리 대출 지원 등 정책적 세무 특례' },
+        { file: '입지및 프리미엄/page_8.jpg', category: 'premium', title: '금융 및 분양 지원 혜택', desc: '입주 기업의 초기 자금 부담을 대폭 낮춰주는 합리적 공급 조건' },
+        { file: '입지및 프리미엄/page_9.jpg', category: 'premium', title: '임대 및 투자 메리트', desc: '마곡지구 최고의 안정적인 임대 수임과 프리미엄 가치 상승 기대' },
+        { file: '입지및 프리미엄/page_21.jpg', category: 'premium', title: '종합 비전 가이드', desc: '미래를 향해 뻗어나가는 엘리프 마곡 가든스퀘어의 미래 가치 총괄' },
+
+        // 3. 도면 및 평면도 (floorplan) - '평면도' 폴더 내 정돈된 파일들
+        { file: '평면도/page_10.jpg', category: 'floorplan', title: '지하 1층 평면도', desc: '지하 1층 대규모 구내식당(우선배정) 및 운동시설 배치 구성' },
+        { file: '평면도/page_11.jpg', category: 'floorplan', title: '지상 1층 평면도', desc: '지상 1층 고품격 근린생활시설(편의점, 대형 카페, 약국 등) 배치' },
+        { file: '평면도/page_12.jpg', category: 'floorplan', title: '지상 2층 평면도', desc: '지상 2층 다목적 오피스 및 메디컬, 업무지원시설 최적화 도면' },
+        { file: '평면도/page_13.jpg', category: 'floorplan', title: '지상 3층 평면도', desc: '지상 3층 쾌적한 테라스 설계와 호실 연결성이 뛰어난 동선' },
+        { file: '평면도/page_14.jpg', category: 'floorplan', title: '지상 4층 평면도', desc: '지상 4층 친환경 섹션오피스 배치도 및 내부 중앙 정원 인접 설계' },
+        { file: '평면도/page_15.jpg', category: 'floorplan', title: '지상 5층 평면도', desc: '지상 5층 비즈니스 맞춤형 평면 구성 및 개별 환기 특화 구조' },
+        { file: '평면도/page_16.jpg', category: 'floorplan', title: '지상 6층 평면도', desc: '지상 6층 확장형 오피스 구성을 위한 대단위 면적 활용 설계' },
+        { file: '평면도/page_17.jpg', category: 'floorplan', title: '지상 7층 평면도', desc: '지상 7층 탁 트인 마곡 뷰 조망권이 확보되기 시작하는 로열층 도면' },
+        { file: '평면도/page_18.jpg', category: 'floorplan', title: '지상 8층 평면도', desc: '지상 8층 우수한 조망과 휴식 테라스 정원이 인접해 쾌적함이 뛰어난 층' },
+        { file: '평면도/page_19.jpg', category: 'floorplan', title: '지상 9층 평면도', desc: '지상 9층 고층 프리미엄 오피스로 중대형 기업 비즈니스 허브 적합' },
+        { file: '평면도/page_20.jpg', category: 'floorplan', title: '지상 10층 평면도', desc: '최상층 스카이라인을 갖춘 펜트하우스형 최고급 프리미엄 오피스 도면' }
     ];
 
     // Filtered array to manage current displaying images
@@ -138,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sliderPagination = document.getElementById('sliderPagination');
     const galleryGrid = document.getElementById('galleryGrid');
 
-    // Build Slider (using the first 6 key images)
-    const sliderImages = imagesData.filter((img, idx) => [0, 1, 2, 4, 11, 25].includes(idx));
+    // Build Slider (using the first 6 key images from catalog)
+    const sliderImages = imagesData.filter(img => img.category === 'catalog').slice(0, 6);
     
     sliderImages.forEach((img, idx) => {
         // Create Slide
@@ -297,8 +301,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let isFilteredLightbox = false; // Flag to check if we navigate in filtered gallery or overall data
 
     function openLightbox(index, useFiltered = false) {
-        currentLightboxIdx = index;
-        isFilteredLightbox = useFiltered;
+        let targetIdx = index;
+        let isFiltered = useFiltered;
+
+        // If path is passed as a string (from simulator for example)
+        if (typeof index === 'string') {
+            const foundIdx = imagesData.findIndex(item => item.file === index);
+            if (foundIdx !== -1) {
+                targetIdx = foundIdx;
+                isFiltered = false; // Open on global dataset
+            }
+        }
+
+        currentLightboxIdx = targetIdx;
+        isFilteredLightbox = isFiltered;
         updateLightboxContent();
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -514,19 +530,22 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const floor = selectFloor.value;
             
-            // Map selected floor key to the original imagesData index:
-            // B1: 20, 1: 21, 2-3: 22, 4~6: 23, 7~9: 24, 10: 25
-            let targetImgIdx = 25; // Default to 10F
+            // Map selected floor key to the new floorplan file path
+            let targetImgPath = '평면도/page_20.jpg'; // Default to 10F
             
-            if (floor === 'B1') targetImgIdx = 20;
-            else if (floor === '1') targetImgIdx = 21;
-            else if (floor === '2-3') targetImgIdx = 22;
-            else if (['4', '5', '6'].includes(floor)) targetImgIdx = 23;
-            else if (['7', '8', '9'].includes(floor)) targetImgIdx = 24;
-            else if (floor === '10') targetImgIdx = 25;
+            if (floor === 'B1') targetImgPath = '평면도/page_10.jpg';
+            else if (floor === '1') targetImgPath = '평면도/page_11.jpg';
+            else if (floor === '2-3') targetImgPath = '평면도/page_12.jpg';
+            else if (floor === '4') targetImgPath = '평면도/page_14.jpg';
+            else if (floor === '5') targetImgPath = '평면도/page_15.jpg';
+            else if (floor === '6') targetImgPath = '평면도/page_16.jpg';
+            else if (floor === '7') targetImgPath = '평면도/page_17.jpg';
+            else if (floor === '8') targetImgPath = '평면도/page_18.jpg';
+            else if (floor === '9') targetImgPath = '평면도/page_19.jpg';
+            else if (floor === '10') targetImgPath = '평면도/page_20.jpg';
             
-            // Open the lightbox using the global imagesData index (isFiltered = false)
-            openLightbox(targetImgIdx, false);
+            // Open the lightbox using the path string
+            openLightbox(targetImgPath, false);
         });
     }
 
