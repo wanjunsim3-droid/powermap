@@ -39,6 +39,27 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', closeDrawer);
     });
 
+    // Smooth scroll for all other anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            
+            // Skip for empty links, privacy modal, or special navigation-filter links
+            if (targetId === '#' || this.classList.contains('privacy-link') || this.id.includes('Link')) {
+                return;
+            }
+            
+            e.preventDefault();
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
     // Navigation Filter Sync
     const navLinkGallery = document.getElementById('navLinkGallery');
     const navLinkFloorplan = document.getElementById('navLinkFloorplan');
