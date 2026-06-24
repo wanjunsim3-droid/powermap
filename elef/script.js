@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
-    if (navLinkGallery) navLinkGallery.addEventListener('click', (e) => triggerGalleryFilter('all', e));
+    if (navLinkGallery) navLinkGallery.addEventListener('click', (e) => triggerGalleryFilter('catalog', e));
     if (navLinkFloorplan) navLinkFloorplan.addEventListener('click', (e) => triggerGalleryFilter('floorplan', e));
-    if (drawerLinkGallery) drawerLinkGallery.addEventListener('click', (e) => triggerGalleryFilter('all', e));
+    if (drawerLinkGallery) drawerLinkGallery.addEventListener('click', (e) => triggerGalleryFilter('catalog', e));
     if (drawerLinkFloorplan) drawerLinkFloorplan.addEventListener('click', (e) => triggerGalleryFilter('floorplan', e));
 
 
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    buildGalleryGrid(); // Run on init
+    buildGalleryGrid('catalog'); // Run on init
 
 
     // ==========================================
@@ -272,10 +272,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const filterValue = btn.getAttribute('data-filter');
             
-            // Toggle slider visibility based on filter (All: show, others: hide to show grid immediately)
+            // Toggle slider visibility based on filter (Catalog: show, others: hide to show grid immediately)
             const sliderWrapper = document.querySelector('.slider-wrapper');
             if (sliderWrapper) {
-                if (filterValue === 'all') {
+                if (filterValue === 'catalog') {
                     sliderWrapper.style.display = 'block';
                 } else {
                     sliderWrapper.style.display = 'none';
