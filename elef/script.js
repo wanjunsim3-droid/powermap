@@ -259,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Gallery Filtering Tabs
     // ==========================================
     const filterButtons = document.querySelectorAll('.filter-btn');
-
     filterButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             // Remove active class
@@ -268,6 +267,17 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
             
             const filterValue = btn.getAttribute('data-filter');
+            
+            // Toggle slider visibility based on filter (All: show, others: hide to show grid immediately)
+            const sliderWrapper = document.querySelector('.slider-wrapper');
+            if (sliderWrapper) {
+                if (filterValue === 'all') {
+                    sliderWrapper.style.display = 'block';
+                } else {
+                    sliderWrapper.style.display = 'none';
+                }
+            }
+            
             buildGalleryGrid(filterValue);
         });
     });
