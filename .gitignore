@@ -1,0 +1,15 @@
+# 대용량 원본 안내서 및 현장별 정리 폴더 제외 (GitHub 저장소 용량 초과 방지)
+/*.png
+*.pdf
+photothumb.db
+마곡 아이파크 디어반/
+마곡 보타닉 게이트/
+뉴브 클라우드힐스/
+마곡지구 D18-B/
+scratch/
+
+# OS & 에디터 관련 파일
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

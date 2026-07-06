@@ -1,0 +1,175 @@
+{
+  "centers": [
+    {
+      "id": "ipark",
+      "name": "마곡 아이파크 디어반",
+      "status": "분양중",
+      "available": 12,
+      "price_per_sqm": 3000000,
+      "image": "assets/images/ipark_main.png",
+      "detailPage": "center.html?id=ipark",
+      "features": [
+        "마곡지구 내 R&D형 최초의 지식산업센터",
+        "연면적 약 21,833평의 대단지 랜드마크",
+        "HDC현대산업개발 시공의 검증된 브랜드 프리미엄",
+        "지하 5층 ~ 지상 11층, 632대의 넉넉한 주차 공간"
+      ],
+      "specs": {
+        "사업명": "마곡 R&D 센터 지식산업센터 신축사업",
+        "사업주체": "HDC현대산업개발 컨소시엄",
+        "위치": "마곡도시개발구역 내 산업시설구역 D18-A",
+        "용도": "업무시설(지식산업센터), 근린생활시설",
+        "대지면적": "10,086.00㎡ (약 3,051.02평)",
+        "건축면적": "6,004.85㎡ (약 1,816.47평)",
+        "연면적": "72,175.31㎡ (약 21,833.03평)",
+        "건축규모": "지하 5층 ~ 지상 11층",
+        "건폐율 / 용적률": "59.54% / 349.93%",
+        "주차대수": "632대 (법정 대비 130.85%)"
+      },
+      "gallery": [
+        {
+          "tab": "대표 조감도",
+          "image": "assets/images/ipark_main.png"
+        },
+        {
+          "tab": "사업개요 및 상세",
+          "image": "assets/images/ipark_5.png"
+        },
+        {
+          "tab": "도면 및 설계특징",
+          "image": "assets/images/ipark_6.png"
+        }
+      ]
+    },
+    {
+      "id": "d18b",
+      "name": "엘리프 마곡 가든스퀘어",
+      "status": "분양중",
+      "available": 10,
+      "price_per_sqm": 2950000,
+      "image": "assets/images/d18b_main.png",
+      "detailPage": "center.html?id=d18b",
+      "features": [
+        "마곡지구 마지막 9호선 역세권 지식산업센터",
+        "주식회사 유케이아이디 주체의 신뢰도 높은 사업",
+        "주변 시세 대비 경쟁력 있는 평균 평당 분양가",
+        "업무 및 협업 연구시설에 특화된 유연한 공간 설계"
+      ],
+      "specs": {
+        "사업명": "서울시 마곡지구 엘리프 마곡 가든스퀘어 지식산업센터 건립사업",
+        "사업주체": "(주)유케이아이디",
+        "위치": "서울 강서구 마곡도시개발구역 D18-B",
+        "용도": "업무시설(지식산업센터), 근린생활시설",
+        "준공정보": "상세 문의 요망",
+        "특징": "9호선 증미역/가양역 도보 이용 권역"
+      },
+      "gallery": [
+        {
+          "tab": "대표 조감도",
+          "image": "assets/images/d18b_main.png"
+        },
+        {
+          "tab": "사업개요 안내",
+          "image": "assets/images/d18b_outline.png"
+        },
+        {
+          "tab": "광역 입지환경",
+          "image": "assets/images/d18b_location.png"
+        },
+        {
+          "tab": "입주가능 업종안내",
+          "image": "assets/images/d18b_industry.png"
+        }
+      ]
+    },
+    {
+      "id": "newcloudhill",
+      "name": "뉴브 클라우드힐스",
+      "status": "분양중",
+      "available": 5,
+      "price_per_sqm": 3200000,
+      "image": "assets/images/newv_main.png",
+      "detailPage": "center.html?id=newcloudhill",
+      "features": [
+        "서울주택공사(SH) 공모사업의 높은 신뢰성과 안정성",
+        "지하철 3개 노선(5호선, 9호선, 공항철도) 트리플 교통망",
+        "마곡 업무지구 최대 스케일 (연면적 약 30,144평)",
+        "우미건설, 현대건설 시공 예정"
+      ],
+      "specs": {
+        "사업명": "마곡 D13BL 클라우드힐스 건립사업",
+        "사업주체": "우미건설, 현대건설, 컴투스, 광동제약 컨소시엄",
+        "위치": "서울 마곡일반산업단지 D13BL (강서구 마곡동 779-1)",
+        "용도": "업무분양, 업무임대, 지원시설, 공용시설",
+        "준공일자": "2025년 6월 예정",
+        "대지면적": "15,006.40㎡ (약 4,539.44평)",
+        "연면적": "99,651.66㎡ (약 30,144.63평)",
+        "건축규모": "지하 4층 ~ 지상 11층 (주차 875대)",
+        "건폐율 / 용적률": "57.05% / 349.46%"
+      },
+      "gallery": [
+        {
+          "tab": "대표 조감도",
+          "image": "assets/images/newv_main.png"
+        },
+        {
+          "tab": "사업 상세개요",
+          "image": "assets/images/newv_outline.png"
+        },
+        {
+          "tab": "입지 프리미엄",
+          "image": "assets/images/newv_location.png"
+        },
+        {
+          "tab": "분양 및 임대현황",
+          "image": "assets/images/newv_status.png"
+        }
+      ]
+    },
+    {
+      "id": "botanicgate",
+      "name": "마곡 보타닉 게이트",
+      "status": "분양중",
+      "available": 8,
+      "price_per_sqm": 3100000,
+      "image": "assets/images/botanic_main.png",
+      "detailPage": "center.html?id=botanicgate",
+      "features": [
+        "마곡 지구 내 합리적 분양가 및 최상의 가성비",
+        "서울식물원 영구조망이 가능한 힐링 비즈니스 환경",
+        "전용률 48.1% 확보로 타사 대비 넓은 실사용 공간 제공",
+        "지상 10층 규모, 전용 16평형 중심의 맞춤 설계"
+      ],
+      "specs": {
+        "사업명": "마곡38BL 보타닉게이트 지식산업센터 건립사업",
+        "사업주체": "핍스웨이브개발 컨소시엄",
+        "위치": "마곡산업시설구역 D38 (강서구 마곡동 779번지)",
+        "용도": "업무시설(지식산업센터), 근린생활시설",
+        "대지면적": "5,897.30㎡ (1,783.93평)",
+        "건축면적": "3,494.5014㎡ (1,057.09평)",
+        "연면적": "37,736.8402㎡ (11,415.39평)",
+        "건축규모": "지하 4층 ~ 지상 10층",
+        "건폐율 / 용적률": "59.26% / 349.57%",
+        "주차대수": "339대 (법정 대비 130%)"
+      },
+      "gallery": [
+        {
+          "tab": "대표 조감도",
+          "image": "assets/images/botanic_main.png"
+        },
+        {
+          "tab": "사업개요 및 배치도",
+          "image": "assets/images/botanic_outline.png"
+        },
+        {
+          "tab": "광역 입지환경",
+          "image": "assets/images/botanic_location.png"
+        },
+        {
+          "tab": "경쟁상품 비교분석",
+          "image": "assets/images/botanic_comparison.png"
+        }
+      ]
+    }
+  ]
+}
