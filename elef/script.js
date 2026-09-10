@@ -388,56 +388,56 @@ document.addEventListener('DOMContentLoaded', () => {
             recom: '💡 지상 10층 추천 업종 및 특징',
             recomDesc: 'IT, R&D 연구소, 벤처기업 오피스로 완벽합니다. 보타닉파크 수목원의 탁 트인 조망권과 밝은 채광으로 비즈니스 창의성을 극대화합니다.',
             rentUnitPrice: 5.0, // 5만원 / 평
-            buyUnitPrice: 1980 // 1,980만원 / 평
+            buyUnitPrice: 1880 // 1,880만원 / 평
         },
         '9': {
             name: '지상 9층 (901호~913호)',
             recom: '💡 지상 9층 추천 업종 및 특징',
             recomDesc: '엔지니어링, 설계, 전문직 컨설팅 기업에 추천합니다. 고층부 로열 오피스로 임직원의 업무 만족도가 우수합니다.',
             rentUnitPrice: 4.8,
-            buyUnitPrice: 1970
+            buyUnitPrice: 1870
         },
         '8': {
             name: '지상 8층 (801호~815호)',
             recom: '💡 지상 8층 추천 업종 및 특징',
             recomDesc: '스타트업, 교육콘텐츠 및 기술 개발 오피스. 중간층 테라스 정원 접근성이 좋으며 가성비가 높은 로열층입니다.',
             rentUnitPrice: 4.6,
-            buyUnitPrice: 1960
+            buyUnitPrice: 1860
         },
         '7': {
             name: '지상 7층 (701호~714호)',
             recom: '💡 지상 7층 추천 업종 및 특징',
             recomDesc: '바이오, 헬스케어 및 디자인 에이전시 등 쾌적하고 조용한 업무 환경이 필요한 기업에 추천합니다.',
             rentUnitPrice: 4.5,
-            buyUnitPrice: 1950
+            buyUnitPrice: 1850
         },
         '6': {
             name: '지상 6층 (601호~613호)',
             recom: '💡 지상 6층 추천 업종 및 특징',
             recomDesc: '마케팅, 수출입 상사, 미디어 제작 기업. 다양한 층 구성을 통해 필요 시 여러 호실을 확장 연계하기에 유리합니다.',
             rentUnitPrice: 4.4,
-            buyUnitPrice: 1940
+            buyUnitPrice: 1840
         },
         '5': {
             name: '지상 5층 (501호~513호)',
             recom: '💡 지상 5층 추천 업종 및 특징',
             recomDesc: '의료기기, 소프트웨어 개발실. 합리적인 임대 가격 포지션으로 초기 기업의 부담을 대폭 경감합니다.',
             rentUnitPrice: 4.3,
-            buyUnitPrice: 1930
+            buyUnitPrice: 1830
         },
         '4': {
             name: '지상 4층 (401호~413호)',
             recom: '💡 지상 4층 추천 업종 및 특징',
             recomDesc: '세무, 법무, 노무법인 오피스. 저층부의 신속한 계단식 접근이 가능하며 외래객 방문이 빈번한 사무실에 유리합니다.',
             rentUnitPrice: 4.2,
-            buyUnitPrice: 1920
+            buyUnitPrice: 1820
         },
         '2-3': {
             name: '지상 2~3층 (201~237호 / 301~337호)',
             recom: '💡 지상 2~3층 추천 업종 및 특징',
             recomDesc: '대규모 병의원, 학원, 업무지원시설(은행, 세무서 등). 업무 효율과 상가 인프라 혜택을 동시에 누리는 최적의 층입니다.',
             rentUnitPrice: 5.5,
-            buyUnitPrice: 2100
+            buyUnitPrice: 1980
         },
         '1': {
             name: '지상 1층 (상가 101호~122호)',
