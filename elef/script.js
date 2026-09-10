@@ -96,15 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Gallery Images Data Definition
     // ==========================================
     const imagesData = [
-        // 1. 카탈로그 (catalog) - 루트 폴더의 대표 홍보 이미지들
-        { file: 'KakaoTalk_20260624_134916011.jpg', category: 'catalog', title: '엘리프 마곡 가든스퀘어 메인 조감도', desc: '자연과 테크가 어우러진 마곡의 랜드마크 프리미엄 오피스 타워' },
-        { file: 'KakaoTalk_20260624_134916011_01.jpg', category: 'catalog', title: '고품격 로비 라운지', desc: '입주사의 품격을 극대화해주는 웅장한 로비 공간 설계' },
-        { file: 'KakaoTalk_20260624_134916011_02.jpg', category: 'catalog', title: '공중 테라스 정원 (가든스퀘어)', desc: '지상층 입체적인 녹지 테라스로 쾌적한 휴식 공간 선사' },
-        { file: 'KakaoTalk_20260624_134916011_03.jpg', category: 'catalog', title: '가든스퀘어 전체 전경', desc: '자연친화적 디자인 테마와 현대적 감각의 어반 오피스' },
-        { file: 'KakaoTalk_20260624_134916011_05.jpg', category: 'catalog', title: '비즈니스 특장점 요약', desc: '마곡 최고의 미래가치와 프리미엄 지식산업센터 혜택' },
-        { file: 'KakaoTalk_20260624_134916011_06.jpg', category: 'catalog', title: '계룡건설 브랜드 소개', desc: '신뢰의 메이저 브랜드 계룡건설이 짓는 책임 준공 보증' },
-        { file: 'KakaoTalk_20260624_134916011_07.jpg', category: 'catalog', title: '최적의 MD 구성 계획', desc: '지상 1층 편의점, 메이저 카페, 약국 및 지하 구내식당 구성' },
-        { file: 'KakaoTalk_20260624_134916011_08.jpg', category: 'catalog', title: '층별 쾌적한 동선 설계', desc: '원활한 물류 및 엘리베이터 동선, 친환경 비즈니스 특화' },
+        // 1. 카탈로그 (catalog) - 이미지 폴더의 대표 홍보 이미지들
+        { file: '이미지/KakaoTalk_20260624_134916011.jpg', category: 'catalog', title: '엘리프 마곡 가든스퀘어 메인 조감도', desc: '자연과 테크가 어우러진 마곡의 랜드마크 프리미엄 오피스 타워' },
+        { file: '이미지/KakaoTalk_20260624_134916011_01.jpg', category: 'catalog', title: '고품격 로비 라운지', desc: '입주사의 품격을 극대화해주는 웅장한 로비 공간 설계' },
+        { file: '이미지/KakaoTalk_20260624_134916011_02.jpg', category: 'catalog', title: '공중 테라스 정원 (가든스퀘어)', desc: '지상층 입체적인 녹지 테라스로 쾌적한 휴식 공간 선사' },
+        { file: '이미지/KakaoTalk_20260624_134916011_03.jpg', category: 'catalog', title: '가든스퀘어 전체 전경', desc: '자연친화적 디자인 테마와 현대적 감각의 어반 오피스' },
+        { file: '이미지/KakaoTalk_20260624_134916011_05.jpg', category: 'catalog', title: '비즈니스 특장점 요약', desc: '마곡 최고의 미래가치와 프리미엄 지식산업센터 혜택' },
+        { file: '이미지/KakaoTalk_20260624_134916011_06.jpg', category: 'catalog', title: '계룡건설 브랜드 소개', desc: '신뢰의 메이저 브랜드 계룡건설이 짓는 책임 준공 보증' },
+        { file: '이미지/KakaoTalk_20260624_134916011_07.jpg', category: 'catalog', title: '최적의 MD 구성 계획', desc: '지상 1층 편의점, 메이저 카페, 약국 및 지하 구내식당 구성' },
+        { file: '이미지/KakaoTalk_20260624_134916011_08.jpg', category: 'catalog', title: '층별 쾌적한 동선 설계', desc: '원활한 물류 및 엘리베이터 동선, 친환경 비즈니스 특화' },
 
         // 2. 입지 및 프리미엄 (premium) - '입지및 프리미엄' 폴더 내 정돈된 파일들
         { file: '입지및 프리미엄/page_2.jpg', category: 'premium', title: '광역 입지 환경 안내', desc: '마곡 18B 블록, 신도심 중심축에 우뚝 서는 최상의 비즈니스 밸리' },
