@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { getDatabase, ref, set, push, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+import { sendReservationAutoSms } from './sms-service.js';
 
 // =========================================================================
 // Firebase 프로젝트 환경 설정 정보 (Config)
@@ -123,6 +124,48 @@ function setupAuthStateListener(callback) {
   }
 }
 
+// =========================================================================
+// 공통 가격 계산 단일 함수 (계산기 & 예약창 일원화)
+// =========================================================================
+export function calculatePrice(dayType, timeType, hours) {
+  const h = parseInt(hours, 10);
+  if (isNaN(h)) return null;
+
+  // ① 주중 주간 — 월~목 / 10:00~18:00 (최소 2시간, 시간당 25,000원)
+  if (dayType === 'weekday' && timeType === 'day') {
+    if (h < 2) return null;
+    return h * 25000;
+  }
+
+  // ② 주중 야간 — 월~목 / 18:00 이후 (최소 3시간, 시간당 50,000원 / 기본 3시간 150,000원)
+  if (dayType === 'weekday' && timeType === 'night') {
+    if (h < 3) return null;
+    return h * 50000;
+  }
+
+  // ③ 주말 주간 — 금~일 / 10:00~18:00 (최소 2시간, 시간당 40,000원 / 기본 2시간 80,000원)
+  if (dayType === 'weekend' && timeType === 'day') {
+    if (h < 2) return null;
+    return h * 40000;
+  }
+
+  // ④ 주말 야간 — 금~일 / 18:00 이후 (최소 6시간, 시간당 50,000원 / 기본 6시간 300,000원)
+  if (dayType === 'weekend' && timeType === 'night') {
+    if (h < 6) return null;
+    return h * 50000;
+  }
+
+  return null;
+}
+
+export function getMinHours(dayType, timeType) {
+  if (dayType === 'weekday') {
+    return timeType === 'day' ? 2 : 3;
+  } else {
+    return timeType === 'day' ? 2 : 6;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // =========================================================================
@@ -188,95 +231,95 @@ document.addEventListener('DOMContentLoaded', () => {
   const hoursRange = document.getElementById('rent-hours-range');
   const hoursLabel = document.getElementById('hours-label');
   const priceDisplay = document.getElementById('calculated-price-amount');
+  const rangeHint = document.querySelector('.range-hint');
   
   // Estimate labels
   const estDayType = document.getElementById('est-day-type');
   const estTimeType = document.getElementById('est-time-type');
   const estHours = document.getElementById('est-hours');
   const modalSummaryPrice = document.getElementById('modal-summary-price');
+  const modalSummaryOption = document.getElementById('modal-summary-option');
 
-  // Rules based pricing calculator
-  function calculatePrice() {
-    const isWeekend = dayWeekend.checked;
-    const isNight = timeNight.checked;
+  // Rules based pricing calculator updater
+  function updateCalculator() {
+    const dayType = (dayWeekend && dayWeekend.checked) ? 'weekend' : 'weekday';
+    const timeType = (timeNight && timeNight.checked) ? 'night' : 'day';
     
     // Dynamic slider limits validation
-    const rangeHint = document.querySelector('.range-hint');
-    let minHours = 2;
-    let hintText = "최소 2시간부터 최대 8시간까지 연장 가능";
+    const minHours = getMinHours(dayType, timeType);
 
-    if (isWeekend) {
-      if (isNight) {
-        minHours = 6;
-        hintText = "주말 야간은 최소 6시간부터 최대 8시간까지 예약 가능합니다.";
+    if (hoursRange) {
+      hoursRange.min = minHours;
+      hoursRange.max = 8;
+      if (parseInt(hoursRange.value, 10) < minHours) {
+        hoursRange.value = minHours;
+      }
+    }
+
+    const hours = hoursRange ? parseInt(hoursRange.value, 10) : minHours;
+    const price = calculatePrice(dayType, timeType, hours);
+
+    // 안내 문구 설정
+    let hintText = "최소 2시간부터 최대 8시간까지 예약 가능";
+    if (dayType === 'weekday') {
+      if (timeType === 'day') {
+        hintText = "주중 주간은 최소 2시간(시간당 25,000원)부터 예약 가능합니다.";
       } else {
-        minHours = 5;
-        hintText = "주말 주간은 기본 5시간(최대 8시간) 대여 요금제가 적용됩니다.";
+        hintText = "주중 야간은 최소 3시간(기본 150,000원 / 추가 시간당 50,000원)부터 예약 가능합니다.";
       }
     } else {
-      if (isNight) {
-        minHours = 3;
-        hintText = "주중 야간은 최소 3시간부터 3시간 단위(15만원)로 예약 가능합니다.";
-      }
-    }
-
-    hoursRange.min = minHours;
-    if (parseInt(hoursRange.value, 10) < minHours) {
-      hoursRange.value = minHours;
-    }
-    rangeHint.textContent = hintText;
-
-    const hours = parseInt(hoursRange.value, 10);
-    let totalPrice = 0;
-    
-    if (!isWeekend) {
-      // Weekday (주중)
-      if (!isNight) {
-        // Day (주간) - Hourly 25k KRW (2 hours = 50k, 3 hours = 75k, 4 hours = 100k)
-        totalPrice = hours * 25000;
-        estTimeType.textContent = "이용 시간대: 주간 (10:00 - 18:00)";
+      if (timeType === 'day') {
+        hintText = "주말 주간은 최소 2시간(기본 80,000원 / 추가 시간당 40,000원)부터 예약 가능합니다.";
       } else {
-        // Night (야간) - 3시간 단위 블록 요금제 (3시간=15만, 4시간=30만, 7시간=45만)
-        const blocks = Math.ceil(hours / 3);
-        totalPrice = blocks * 150000;
-        estTimeType.textContent = `이용 시간대: 야간 (3시간 단위 요금제, 총 ${blocks}타임 적용)`;
+        hintText = "주말 야간은 최소 6시간(기본 300,000원 / 추가 시간당 50,000원)부터 예약 가능합니다.";
       }
-      estDayType.textContent = "이용 요일: 주중 (월~목)";
+    }
+
+    if (rangeHint) {
+      rangeHint.textContent = hintText;
+    }
+
+    // Formatting & Displaying values
+    const dayLabel = dayType === 'weekday' ? '주중 (월~목)' : '주말 (금~일)';
+    const timeLabel = timeType === 'day' ? '주간 (10:00 - 18:00)' : '야간 (18:00 이후)';
+
+    if (hoursLabel) {
+      hoursLabel.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> 대여 시간: ${hours}시간`;
+    }
+    if (estDayType) {
+      estDayType.textContent = `이용 요일: ${dayLabel}`;
+    }
+    if (estTimeType) {
+      estTimeType.textContent = `이용 시간대: ${timeLabel}`;
+    }
+    if (estHours) {
+      estHours.textContent = `총 이용 시간: ${hours}시간`;
+    }
+    
+    if (price === null) {
+      if (priceDisplay) priceDisplay.textContent = '-';
+      if (modalSummaryPrice) modalSummaryPrice.textContent = '-';
+      if (modalSummaryOption) modalSummaryOption.textContent = `해당 시간대의 최소 이용시간은 ${minHours}시간입니다.`;
     } else {
-      // Weekend (주말)
-      if (!isNight) {
-        // Day (주간) - 5 hours = 180k KRW (Approx 36k per hour)
-        totalPrice = hours * 36000;
-        estTimeType.textContent = "이용 시간대: 주간 (10:00 - 18:00)";
-      } else {
-        // Night (야간) - Weekend All Night (6 hours) package flat 300,000 KRW
-        if (hours === 6) {
-          totalPrice = 300000;
-        } else {
-          totalPrice = hours * 50000;
-        }
-        estTimeType.textContent = "이용 시간대: 야간 6시간 자유 이용 (새벽 2시 퇴실)";
+      const formattedPrice = price.toLocaleString('ko-KR');
+      if (priceDisplay) priceDisplay.textContent = formattedPrice;
+      if (modalSummaryPrice) modalSummaryPrice.textContent = formattedPrice;
+      if (modalSummaryOption) {
+        modalSummaryOption.textContent = `${dayLabel} / ${timeLabel.split(' ')[0]} / ${hours}시간`;
       }
-      estDayType.textContent = "이용 요일: 주말 (금~일)";
     }
-    
-    // Formatting values
-    hoursLabel.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> 대여 시간: ${hours}시간`;
-    estHours.textContent = `총 이용 시간: ${hours}시간`;
-    
-    const formattedPrice = totalPrice.toLocaleString('ko-KR');
-    priceDisplay.textContent = formattedPrice;
-    modalSummaryPrice.textContent = formattedPrice;
   }
 
   // Bind calculation events
   [dayWeekday, dayWeekend, timeDay, timeNight].forEach(input => {
-    input.addEventListener('change', calculatePrice);
+    if (input) input.addEventListener('change', updateCalculator);
   });
-  hoursRange.addEventListener('input', calculatePrice);
+  if (hoursRange) {
+    hoursRange.addEventListener('input', updateCalculator);
+  }
 
   // Initialize Calculator on load
-  calculatePrice();
+  updateCalculator();
 
   // =========================================================================
   // 4. Booking Modal Toggle & Seamless Submission Flow
@@ -286,41 +329,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const bookingTriggers = document.querySelectorAll('.btn-booking-trigger');
   const bookingForm = document.getElementById('booking-form');
   const bookingSuccessView = document.getElementById('booking-success-view');
-  const bookingClipboardPreview = document.getElementById('booking-clipboard-preview');
-  const btnReCopy = document.getElementById('btn-re-copy');
-  const btnGoKakao = document.getElementById('btn-go-kakao');
+  const btnSuccessClose = document.getElementById('btn-success-close');
+  const successUserName = document.getElementById('success-user-name');
+  const successDate = document.getElementById('success-date');
+  const successGuests = document.getElementById('success-guests');
+  const successPrice = document.getElementById('success-price');
 
-  // 클립보드 복사 함수 (최신 API + Fallback 지원으로 100% 호환)
-  function copyTextToClipboard(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text).catch(() => {
-        return fallbackCopyTextToClipboard(text);
-      });
-    } else {
-      return fallbackCopyTextToClipboard(text);
+  // 부드러운 토스트 알림 UI 함수
+  function showToast(message, duration = 3500) {
+    let toast = document.getElementById('global-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'global-toast';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: rgba(20, 20, 30, 0.95);
+        color: #fff;
+        padding: 14px 24px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.15);
+        z-index: 99999;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        pointer-events: none;
+        opacity: 0;
+      `;
+      document.body.appendChild(toast);
     }
-  }
-
-  function fallbackCopyTextToClipboard(text) {
-    return new Promise((resolve, reject) => {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed";
-      textArea.style.top = "-9999px";
-      textArea.style.left = "-9999px";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        const successful = document.execCommand('copy');
-        document.body.removeChild(textArea);
-        if (successful) resolve();
-        else reject(new Error('Copy command failed'));
-      } catch (err) {
-        document.body.removeChild(textArea);
-        reject(err);
-      }
+    toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #ffd166; font-size: 16px;"></i> <span>${message}</span>`;
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      toast.style.opacity = '1';
     });
+
+    setTimeout(() => {
+      toast.style.transform = 'translateX(-50%) translateY(100px)';
+      toast.style.opacity = '0';
+    }, duration);
   }
 
   // 오늘 날짜로 기본값 설정 (YYYY-MM-DD 형식) 및 클릭 시 달력 팝업 노출
@@ -345,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function openBookingModal() {
-    // 모달 초기 상태 복원 (폼 노출, 완료 뷰 숨김)
+    updateCalculator(); // 모달 오픈 시 최신 계산 데이터 동기화
     if (bookingForm) bookingForm.style.display = 'block';
     if (bookingSuccessView) bookingSuccessView.style.display = 'none';
     bookingModal.classList.add('active');
@@ -365,6 +417,10 @@ document.addEventListener('DOMContentLoaded', () => {
     modalCloseBtn.addEventListener('click', closeModal);
   }
 
+  if (btnSuccessClose) {
+    btnSuccessClose.addEventListener('click', closeModal);
+  }
+
   // Close modal when clicking on the overlay shadow
   bookingModal.addEventListener('click', (e) => {
     if (e.target === bookingModal) {
@@ -372,20 +428,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 다시 복사하기 버튼 이벤트
-  if (btnReCopy && bookingClipboardPreview) {
-    btnReCopy.addEventListener('click', () => {
-      copyTextToClipboard(bookingClipboardPreview.value).then(() => {
-        alert("📋 예약 신청서가 클립보드에 다시 복사되었습니다!");
-      }).catch(() => {
-        bookingClipboardPreview.select();
-        alert("텍스트를 직접 복사(Ctrl+C)해 주세요.");
-      });
-    });
-  }
-
-  // Handle Form Submission (팝업 차단 없는 원활한 카카오톡 연결)
-  bookingForm.addEventListener('submit', (e) => {
+  // Handle Form Submission (자동 문자 발송 및 성공 모달 연동)
+  bookingForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // 이용 규정 동의 체크 여부 검증
@@ -399,29 +443,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const isDdanddara = window.location.pathname.includes('ddanddara');
     const brandName = isDdanddara ? '딴따라 공간대여' : '스폰지 파티룸';
 
+    // 단일 가격 계산 함수를 통해 금액 및 옵션 동기화
+    const dayType = (dayWeekend && dayWeekend.checked) ? 'weekend' : 'weekday';
+    const timeType = (timeNight && timeNight.checked) ? 'night' : 'day';
+    const hours = hoursRange ? parseInt(hoursRange.value, 10) : 3;
+    const priceAmount = calculatePrice(dayType, timeType, hours);
+    const minHours = getMinHours(dayType, timeType);
+
+    if (priceAmount === null) {
+      alert(`해당 시간대의 최소 이용시간은 ${minHours}시간입니다.`);
+      return;
+    }
+
+    const dayLabel = dayType === 'weekday' ? '주중(월~목)' : '주말(금~일)';
+    const timeLabel = timeType === 'day' ? '주간' : '야간';
+    const summaryPrice = priceAmount.toLocaleString('ko-KR');
+    const optionSummary = `${dayLabel} / ${timeLabel} / ${hours}시간`;
+
     const name = document.getElementById('user-name').value;
     const phone = document.getElementById('user-phone').value;
     const date = document.getElementById('booking-date').value;
     const guests = document.getElementById('guest-count').value;
     const note = document.getElementById('booking-note').value || '없음';
-    const summaryPrice = modalSummaryPrice.textContent;
 
-    // Realtime Database 예약 데이터 안전 업로드 (오류 발생 시에도 프로세스 방해 없음)
+    const reservationData = {
+      name,
+      phone,
+      date,
+      guests,
+      note,
+      dayType,
+      timeType,
+      hours,
+      optionSummary,
+      price: summaryPrice,
+      brand: brandName,
+      status: "pending",
+      createdAt: new Date().toISOString()
+    };
+
+    // Realtime Database 예약 데이터 안전 업로드
     if (useFirebase && db) {
       try {
         const reservationsRef = ref(db, 'reservations');
         const newResRef = push(reservationsRef);
-        set(newResRef, {
-          name: name,
-          phone: phone,
-          date: date,
-          guests: guests,
-          note: note,
-          price: summaryPrice,
-          brand: brandName,
-          status: "pending",
-          createdAt: new Date().toISOString()
-        }).catch(err => {
+        set(newResRef, reservationData).catch(err => {
           console.warn("Firebase 저장 권한/네트워크 경고:", err.message);
         });
       } catch (err) {
@@ -432,38 +498,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // 로컬 가상 모드 백업 저장
     try {
       let mockReservations = JSON.parse(localStorage.getItem('mock_reservations') || '[]');
-      mockReservations.push({
-        name, phone, date, guests, note, price: summaryPrice, brand: brandName, status: "pending", createdAt: new Date().toISOString()
-      });
+      mockReservations.push(reservationData);
       localStorage.setItem('mock_reservations', JSON.stringify(mockReservations));
       window.dispatchEvent(new Event('local-reservations-change'));
     } catch (e) {
       console.warn("LocalStorage 저장 오류:", e);
     }
-    
-    // 클립보드에 복사할 정갈한 예약 템플릿 텍스트 생성
-    const clipboardText = `[${brandName} 예약 신청서]
-• 예약자: ${name}님
-• 연락처: ${phone}
-• 이용 날짜: ${date}
-• 이용 인원: ${guests}명
-• 예상 금액: ₩${summaryPrice}
-• 추가 요청사항: ${note}
 
-※ 카카오톡 채널 채팅방이 열리면 이 내용을 그대로 붙여넣기(Ctrl+V 또는 꾹 눌러 붙여넣기)하여 전송해 주세요.`;
-
-    // 클립보드 복사 실행
-    copyTextToClipboard(clipboardText).finally(() => {
-      // 폼 숨기고 성공 안내 화면으로 모달 뷰 전환 (팝업 차단 0%)
-      if (bookingClipboardPreview) {
-        bookingClipboardPreview.value = clipboardText;
-      }
-      bookingForm.style.display = 'none';
-      if (bookingSuccessView) {
-        bookingSuccessView.style.display = 'block';
-      }
-      bookingForm.reset();
+    // 1. 사장님 및 고객 휴대폰으로 자동 확인 문자 발송 (비동기 처리)
+    sendReservationAutoSms(reservationData).catch(err => {
+      console.warn("자동 문자 발송 실패 경고:", err);
     });
+
+    // 2. 완료 뷰 정보 주입 및 화면 전환
+    const successOption = document.getElementById('success-option');
+    if (successUserName) successUserName.textContent = name;
+    if (successDate) successDate.textContent = date;
+    if (successOption) successOption.textContent = optionSummary;
+    if (successGuests) successGuests.textContent = `${guests}명`;
+    if (successPrice) successPrice.textContent = `₩${summaryPrice}`;
+
+    if (bookingForm) bookingForm.style.display = 'none';
+    if (bookingSuccessView) bookingSuccessView.style.display = 'block';
+
+    showToast("🎉 예약 신청 및 확인 문자가 발송되었습니다!");
+    bookingForm.reset();
   });
 
   // =========================================================================

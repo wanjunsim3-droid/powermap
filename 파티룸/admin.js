@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { getDatabase, ref, onValue, remove, update, set, push } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+import { getSmsConfig, saveSmsConfig, sendTestSms, getSmsLogs } from './sms-service.js';
 
 // =========================================================================
 // Firebase 프로젝트 환경 설정 정보 (Config)
@@ -586,4 +587,169 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
+  // =========================================================================
+  // SMS / 알림톡 자동 발송 관리자 설정 로직
+  // =========================================================================
+  const smsEnableToggle = document.getElementById('sms-enable-toggle');
+  const smsProviderSelect = document.getElementById('sms-provider-select');
+  const smsAdminPhone = document.getElementById('sms-admin-phone');
+  const smsSenderPhone = document.getElementById('sms-sender-phone');
+  const smsApiKey = document.getElementById('sms-api-key');
+  const smsApiSecret = document.getElementById('sms-api-secret');
+  const smsWebhookUrl = document.getElementById('sms-webhook-url');
+  const groupApiKey = document.getElementById('group-api-key');
+  const groupApiSecret = document.getElementById('group-api-secret');
+  const groupWebhookUrl = document.getElementById('group-webhook-url');
+  const labelApiKey = document.getElementById('label-api-key');
+  const labelApiSecret = document.getElementById('label-api-secret');
+  const smsConfigForm = document.getElementById('sms-config-form');
+  const btnTestSms = document.getElementById('btn-test-sms');
+  const smsStatusMsg = document.getElementById('sms-status-message');
+  const smsLogsContainer = document.getElementById('sms-logs-container');
+
+  // 제공업체별 UI 필드 전환
+  function updateSmsProviderUI(provider) {
+    if (provider === 'simulation') {
+      if (groupApiKey) groupApiKey.style.display = 'none';
+      if (groupApiSecret) groupApiSecret.style.display = 'none';
+      if (groupWebhookUrl) groupWebhookUrl.style.display = 'none';
+    } else if (provider === 'aligo') {
+      if (groupApiKey) groupApiKey.style.display = 'flex';
+      if (groupApiSecret) groupApiSecret.style.display = 'flex';
+      if (groupWebhookUrl) groupWebhookUrl.style.display = 'none';
+      if (labelApiKey) labelApiKey.textContent = '알리고 API Key';
+      if (labelApiSecret) labelApiSecret.textContent = '알리고 User ID (계정 아이디)';
+    } else if (provider === 'solapi') {
+      if (groupApiKey) groupApiKey.style.display = 'flex';
+      if (groupApiSecret) groupApiSecret.style.display = 'none';
+      if (groupWebhookUrl) groupWebhookUrl.style.display = 'none';
+      if (labelApiKey) labelApiKey.textContent = '솔라피 API Key (Bearer Token)';
+    } else if (provider === 'webhook') {
+      if (groupApiKey) groupApiKey.style.display = 'none';
+      if (groupApiSecret) groupApiSecret.style.display = 'none';
+      if (groupWebhookUrl) groupWebhookUrl.style.display = 'flex';
+    }
+  }
+
+  // SMS 설정 폼 초기화 로드
+  function loadSmsSettings() {
+    const config = getSmsConfig();
+    if (smsEnableToggle) smsEnableToggle.checked = config.enabled;
+    if (smsProviderSelect) smsProviderSelect.value = config.provider || 'simulation';
+    if (smsAdminPhone) smsAdminPhone.value = config.adminPhone || '010-8280-8245';
+    if (smsSenderPhone) smsSenderPhone.value = config.senderPhone || '010-8280-8245';
+    if (smsApiKey) smsApiKey.value = config.apiKey || '';
+    if (smsApiSecret) smsApiSecret.value = config.apiSecret || '';
+    if (smsWebhookUrl) smsWebhookUrl.value = config.webhookUrl || '';
+
+    updateSmsProviderUI(config.provider || 'simulation');
+    renderSmsLogs();
+  }
+
+  if (smsProviderSelect) {
+    smsProviderSelect.addEventListener('change', (e) => {
+      updateSmsProviderUI(e.target.value);
+    });
+  }
+
+  // 설정 저장 핸들러
+  if (smsConfigForm) {
+    smsConfigForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const currentConfig = getSmsConfig();
+      const updatedConfig = {
+        ...currentConfig,
+        enabled: smsEnableToggle ? smsEnableToggle.checked : true,
+        provider: smsProviderSelect ? smsProviderSelect.value : 'simulation',
+        adminPhone: smsAdminPhone ? smsAdminPhone.value.trim() : '010-8280-8245',
+        senderPhone: smsSenderPhone ? smsSenderPhone.value.trim() : '010-8280-8245',
+        apiKey: smsApiKey ? smsApiKey.value.trim() : '',
+        apiSecret: smsApiSecret ? smsApiSecret.value.trim() : '',
+        webhookUrl: smsWebhookUrl ? smsWebhookUrl.value.trim() : ''
+      };
+
+      const success = saveSmsConfig(updatedConfig);
+      if (success) {
+        if (smsStatusMsg) {
+          smsStatusMsg.textContent = "✅ SMS 설정이 성공적으로 저장되었습니다!";
+          setTimeout(() => { smsStatusMsg.textContent = ""; }, 3500);
+        }
+        alert("✅ 문자/알림 발송 설정이 안전하게 저장되었습니다.");
+      } else {
+        alert("설정 저장 중 오류가 발생했습니다.");
+      }
+    });
+  }
+
+  // 테스트 문자 발송 핸들러
+  if (btnTestSms) {
+    btnTestSms.addEventListener('click', async () => {
+      const targetPhone = smsAdminPhone ? smsAdminPhone.value.trim() : '010-8280-8245';
+      if (!targetPhone) {
+        alert("사장님(관리자) 수신 번호를 먼저 입력해주세요.");
+        return;
+      }
+
+      btnTestSms.disabled = true;
+      btnTestSms.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 발송 중...';
+
+      try {
+        const customConfig = {
+          enabled: smsEnableToggle ? smsEnableToggle.checked : true,
+          provider: smsProviderSelect ? smsProviderSelect.value : 'simulation',
+          adminPhone: targetPhone,
+          senderPhone: smsSenderPhone ? smsSenderPhone.value.trim() : targetPhone,
+          apiKey: smsApiKey ? smsApiKey.value.trim() : '',
+          apiSecret: smsApiSecret ? smsApiSecret.value.trim() : '',
+          webhookUrl: smsWebhookUrl ? smsWebhookUrl.value.trim() : ''
+        };
+
+        const result = await sendTestSms(targetPhone, customConfig);
+        if (result.simulated) {
+          alert(`🔔 [시뮬레이션 모드] 테스트 발송 성공!\n수신 번호: ${targetPhone}\n실제 문자를 발송하려면 알리고 또는 솔라피 API Key를 등록하세요.`);
+        } else {
+          alert(`🎉 [${customConfig.provider.toUpperCase()}] 테스트 문자가 ${targetPhone} 번호로 성공적으로 발송되었습니다!`);
+        }
+        renderSmsLogs();
+      } catch (err) {
+        alert(`🚨 테스트 발송 실패: ${err.message}`);
+        renderSmsLogs();
+      } finally {
+        btnTestSms.disabled = false;
+        btnTestSms.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 사장님 폰으로 테스트 문자 발송';
+      }
+    });
+  }
+
+  // 발송 내역(로그) 렌더링
+  function renderSmsLogs() {
+    if (!smsLogsContainer) return;
+    const logs = getSmsLogs();
+    if (!logs || logs.length === 0) {
+      smsLogsContainer.innerHTML = '<div style="color: var(--text-secondary);">기록된 발송 로그가 없습니다.</div>';
+      return;
+    }
+
+    smsLogsContainer.innerHTML = logs.map(log => {
+      const isSuccess = log.status.includes('success');
+      const badgeColor = isSuccess ? '#06d6a0' : '#ef476f';
+      const timeStr = new Date(log.timestamp).toLocaleString('ko-KR');
+      return `
+        <div style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+          <div>
+            <span style="color: ${badgeColor}; font-weight: 700;">[${log.status.toUpperCase()}]</span>
+            <span style="color: #ffd166;">${log.receiver}</span>
+            <span style="color: var(--text-secondary); font-size: 11px;">(${log.provider})</span>
+            <div style="color: rgba(255,255,255,0.8); margin-top: 2px; white-space: pre-wrap; font-size: 11px;">${log.content.replace(/\n/g, ' ')}</div>
+          </div>
+          <span style="color: var(--text-secondary); font-size: 10px; white-space: nowrap;">${timeStr}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 초기 로드 실행
+  loadSmsSettings();
+  window.addEventListener('sponge-sms-logs-updated', renderSmsLogs);
 });
