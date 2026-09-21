@@ -222,8 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 3. Realtime Rental Price Calculator
+  // 3. Realtime Rental Price Calculator & Member 50,000 KRW Discount
   // =========================================================================
+  const MEMBER_DISCOUNT = 50000; // 회원 가입 5만원 특별 할인 혜택
+  let currentAuthUser = null;
+
   const dayWeekday = document.getElementById('day-weekday');
   const dayWeekend = document.getElementById('day-weekend');
   const timeDay = document.getElementById('time-day');
@@ -231,7 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const hoursRange = document.getElementById('rent-hours-range');
   const hoursLabel = document.getElementById('hours-label');
   const priceDisplay = document.getElementById('calculated-price-amount');
+  const calcOriginalPrice = document.getElementById('calc-original-price');
   const rangeHint = document.querySelector('.range-hint');
+  const calcLockOverlay = document.getElementById('calc-lock-overlay');
   
   // Estimate labels
   const estDayType = document.getElementById('est-day-type');
@@ -239,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const estHours = document.getElementById('est-hours');
   const modalSummaryPrice = document.getElementById('modal-summary-price');
   const modalSummaryOption = document.getElementById('modal-summary-option');
+  const modalOriginalPrice = document.getElementById('modal-original-price');
 
   // Rules based pricing calculator updater
   function updateCalculator() {
@@ -257,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const hours = hoursRange ? parseInt(hoursRange.value, 10) : minHours;
-    const price = calculatePrice(dayType, timeType, hours);
+    const originalPrice = calculatePrice(dayType, timeType, hours);
 
     // 안내 문구 설정
     let hintText = "최소 2시간부터 최대 8시간까지 예약 가능";
@@ -296,14 +302,22 @@ document.addEventListener('DOMContentLoaded', () => {
       estHours.textContent = `총 이용 시간: ${hours}시간`;
     }
     
-    if (price === null) {
+    if (originalPrice === null) {
       if (priceDisplay) priceDisplay.textContent = '-';
+      if (calcOriginalPrice) calcOriginalPrice.textContent = '-';
       if (modalSummaryPrice) modalSummaryPrice.textContent = '-';
+      if (modalOriginalPrice) modalOriginalPrice.textContent = '';
       if (modalSummaryOption) modalSummaryOption.textContent = `해당 시간대의 최소 이용시간은 ${minHours}시간입니다.`;
     } else {
-      const formattedPrice = price.toLocaleString('ko-KR');
-      if (priceDisplay) priceDisplay.textContent = formattedPrice;
-      if (modalSummaryPrice) modalSummaryPrice.textContent = formattedPrice;
+      // 5만원 회원 할인 계산 (0원 미만 차단)
+      const finalPrice = Math.max(0, originalPrice - MEMBER_DISCOUNT);
+      const formattedOriginalPrice = originalPrice.toLocaleString('ko-KR');
+      const formattedFinalPrice = finalPrice.toLocaleString('ko-KR');
+
+      if (calcOriginalPrice) calcOriginalPrice.textContent = `₩${formattedOriginalPrice}`;
+      if (priceDisplay) priceDisplay.textContent = formattedFinalPrice;
+      if (modalSummaryPrice) modalSummaryPrice.textContent = formattedFinalPrice;
+      if (modalOriginalPrice) modalOriginalPrice.textContent = `(정상가 ₩${formattedOriginalPrice})`;
       if (modalSummaryOption) {
         modalSummaryOption.textContent = `${dayLabel} / ${timeLabel.split(' ')[0]} / ${hours}시간`;
       }
@@ -447,18 +461,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const dayType = (dayWeekend && dayWeekend.checked) ? 'weekend' : 'weekday';
     const timeType = (timeNight && timeNight.checked) ? 'night' : 'day';
     const hours = hoursRange ? parseInt(hoursRange.value, 10) : 3;
-    const priceAmount = calculatePrice(dayType, timeType, hours);
+    const originalPrice = calculatePrice(dayType, timeType, hours);
     const minHours = getMinHours(dayType, timeType);
 
-    if (priceAmount === null) {
+    if (originalPrice === null) {
       alert(`해당 시간대의 최소 이용시간은 ${minHours}시간입니다.`);
       return;
     }
 
+    const finalPrice = Math.max(0, originalPrice - MEMBER_DISCOUNT);
     const dayLabel = dayType === 'weekday' ? '주중(월~목)' : '주말(금~일)';
     const timeLabel = timeType === 'day' ? '주간' : '야간';
-    const summaryPrice = priceAmount.toLocaleString('ko-KR');
-    const optionSummary = `${dayLabel} / ${timeLabel} / ${hours}시간`;
+    const summaryPrice = finalPrice.toLocaleString('ko-KR');
+    const formattedOriginal = originalPrice.toLocaleString('ko-KR');
+    const optionSummary = `${dayLabel} / ${timeLabel} / ${hours}시간 / ₩${summaryPrice} (5만원 할인적용)`;
 
     const name = document.getElementById('user-name').value;
     const phone = document.getElementById('user-phone').value;
@@ -476,6 +492,8 @@ document.addEventListener('DOMContentLoaded', () => {
       timeType,
       hours,
       optionSummary,
+      originalPrice: formattedOriginal,
+      discount: MEMBER_DISCOUNT,
       price: summaryPrice,
       brand: brandName,
       status: "pending",
@@ -514,14 +532,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const successOption = document.getElementById('success-option');
     if (successUserName) successUserName.textContent = name;
     if (successDate) successDate.textContent = date;
-    if (successOption) successOption.textContent = optionSummary;
+    if (successOption) successOption.textContent = `${dayLabel} ${timeLabel} ${hours}시간`;
     if (successGuests) successGuests.textContent = `${guests}명`;
     if (successPrice) successPrice.textContent = `₩${summaryPrice}`;
 
     if (bookingForm) bookingForm.style.display = 'none';
     if (bookingSuccessView) bookingSuccessView.style.display = 'block';
 
-    showToast("🎉 예약 신청 및 확인 문자가 발송되었습니다!");
+    showToast("🎉 50,000원 회원 할인 혜택이 적용되어 예약 신청 및 확인 문자가 발송되었습니다!");
     bookingForm.reset();
   });
 
@@ -541,19 +559,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const userNicknameDisplay = document.getElementById('user-nickname-display');
   const userNameInput = document.getElementById('user-name');
 
-  // 모달 열기
-  if (authToggleBtn) {
-    authToggleBtn.addEventListener('click', () => {
+  // 모달 열기 함수
+  function openAuthModal() {
+    if (authModal) {
       authModal.classList.add('active');
       document.body.style.overflow = 'hidden';
-    });
+    }
   }
 
   // 모달 닫기
   function closeAuthModal() {
-    authModal.classList.remove('active');
-    document.body.style.overflow = '';
+    if (authModal) {
+      authModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   }
+
+  // 모든 인증 트리거 버튼에 리스너 바인딩
+  if (authToggleBtn) {
+    authToggleBtn.addEventListener('click', openAuthModal);
+  }
+  document.querySelectorAll('.btn-auth-trigger').forEach(btn => {
+    btn.addEventListener('click', openAuthModal);
+  });
+
   if (authCloseBtn) {
     authCloseBtn.addEventListener('click', closeAuthModal);
   }
@@ -599,9 +628,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       registerUser(nickname, email, password)
         .then(() => {
-          alert(`🎉 회원가입 및 로그인이 성공적으로 완료되었습니다!\n${nickname}님, 환영합니다!`);
+          alert(`🎉 축하합니다! 회원가입 완료로 50,000원 추가 할인 혜택이 적용됩니다!\n${nickname}님, 환영합니다!`);
           signupForm.reset();
           closeAuthModal();
+          showToast(`🎁 ${nickname}님, 50,000원 즉시 할인 혜택이 적용되었습니다!`);
         })
         .catch(err => {
           alert(`가입 중 오류 발생: ${err.message}`);
@@ -618,9 +648,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       loginUser(email, password)
         .then(() => {
-          alert("🔓 로그인이 완료되었습니다.");
+          alert("🔓 로그인이 완료되었습니다. 50,000원 회원 할인이 적용됩니다.");
           loginForm.reset();
           closeAuthModal();
+          showToast("🎁 50,000원 회원 할인 혜택이 활성화되었습니다!");
         })
         .catch(err => {
           alert(`로그인 실패: ${err.message}`);
@@ -642,10 +673,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 실시간 인증 세션 감지 및 UI 렌더링 동기화
   setupAuthStateListener((user) => {
+    const mobileAuthBtn = document.getElementById('mobile-auth-btn');
     if (user) {
+      currentAuthUser = user;
+      if (calcLockOverlay) calcLockOverlay.classList.add('hidden');
       if (userProfileBadge) userProfileBadge.style.display = 'flex';
       if (userNicknameDisplay) userNicknameDisplay.textContent = user.displayName;
       if (authToggleBtn) authToggleBtn.style.display = 'none';
+      if (mobileAuthBtn) mobileAuthBtn.style.display = 'none';
 
       // 예약 모달 오픈 시 성함 자동 채우기
       if (userNameInput) {
@@ -653,13 +688,17 @@ document.addEventListener('DOMContentLoaded', () => {
         userNameInput.readOnly = true; // 로그인 정보 연동으로 편집 불가 처리
       }
     } else {
+      currentAuthUser = null;
+      if (calcLockOverlay) calcLockOverlay.classList.remove('hidden');
       if (userProfileBadge) userProfileBadge.style.display = 'none';
-      if (authToggleBtn) authToggleBtn.style.display = 'block';
+      if (authToggleBtn) authToggleBtn.style.display = 'inline-flex';
+      if (mobileAuthBtn) mobileAuthBtn.style.display = 'block';
       if (userNameInput) {
         userNameInput.value = '';
         userNameInput.readOnly = false;
       }
     }
+    updateCalculator();
   });
 
   // =========================================================================

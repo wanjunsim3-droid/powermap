@@ -60,7 +60,9 @@ export function saveSmsConfig(config) {
 // 템플릿 변수 치환
 function formatMessage(template, data) {
   let priceStr = data.price || '';
-  if (data.optionSummary && !priceStr.includes('(')) {
+  if (data.discount && data.originalPrice) {
+    priceStr = `${priceStr} (정상가 ₩${data.originalPrice}, 회원 5만원 할인 적용)`;
+  } else if (data.optionSummary && !priceStr.includes('(')) {
     priceStr = `${priceStr} (${data.optionSummary})`;
   } else if (data.hours && !priceStr.includes('(')) {
     const dayName = data.dayType === 'weekend' ? '주말' : '주중';
