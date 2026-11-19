@@ -252,11 +252,11 @@ const CENTERS = [
     units:"전용 16평형 중심 · 지하1층 임대전용 44실", supply:"분양 + 임대",
     station:"9호선 양천향교역 약 300m (도보 약 5분)", walkMin:5,
     extra:"전용률 48.1%",
-    points:["서울식물원 바로 앞, 식물원 조망 업무환경","전용률 48.1% — 실사용 면적 확보","전용 16평형 중심, 소형 사옥 수요에 적합","계룡건설 시공, 2024년 9월 준공"]
+    points:["서울식물원 바로 앞, 식물원·한강 조망","전용률 48.1% — 실사용 면적 확보","보타닉 스탠드·테라피 테라스·2층 데크","전용 16평형 중심, 소형 사옥 수요에 적합"]
   },
   {
     id:"newcloudhill", name:"뉴브 클라우드힐스", short:"뉴브 클라우드힐스",
-    img:"assets/images/newv_main.png", detail:"./#properties-section",
+    img:"assets/images/newv_2.png", detail:"./#properties-section",
     status:"분양 · 임대 중", ready:true, built:"2025년 6월",
     block:"D13", addr:"강서구 마곡동 779-1",
     developer:"우미건설·현대건설·컴투스·광동제약 컨소시엄", builder:"우미건설 · 현대건설",
@@ -269,16 +269,16 @@ const CENTERS = [
   },
   {
     id:"d18b", name:"마곡 가든스퀘어", short:"마곡 가든스퀘어",
-    img:"assets/images/d18b_main.png", detail:"./#properties-section",
-    status:"분양 · 임대 중", ready:true, built:"2026년",
+    img:"assets/images/garden_main.jpg", detail:"./#properties-section",
+    status:"분양 · 임대 중", ready:true, built:"2026년 5월",
     block:"D18-B", addr:"강서구 마곡동 783-2",
     developer:"계룡건설 컨소시엄", builder:"계룡건설 (엘리프)",
-    land:null, gfa:22997.7, floors:"지하 1층 ~ 지상 10층", top:10,
-    parking:null, parkRatio:null, bcr:null, far:null,
-    units:"100·200평 대형 사무실 · 500평 이상 사옥 가능", supply:"임대 위주 + 일부 분양",
+    land:3531.9, gfa:22933, floors:"지하 4층 ~ 지상 10층", top:10,
+    parking:645, parkRatio:null, bcr:null, far:null,
+    units:"248실 · 40~200평 맞춤 · 대형 사옥 가능", supply:"임대 위주 + 일부 분양",
     station:"9호선 양천향교역 · 5호선 발산역 도보 약 7분", walkMin:7,
-    extra:"500평 이상 단독 사옥·R&D센터 임대 가능",
-    points:["마곡 최신 준공(2026) R&D센터, 엘리프 브랜드","연면적 약 23,000평(76,025㎡)","100·200평 대형 사무실, 500평 이상 단독 사옥 임대","임대 위주 운영 + 일부 섹션 분양"]
+    extra:"기준층 전용 약 519평 · 전용률 약 47.3% · 계룡건설 직접 임대",
+    points:["2026년 5월 준공, 마곡산단 최신 R&D센터","연면적 약 22,933평 · 248실 · 주차 645대","기준층 전용 약 519평 — 대형 단독 사옥에 적합","계룡건설 직접 임대 + 일부 분양"]
   }
 ];
 
@@ -328,7 +328,7 @@ function renderKpis(){
     [CENTERS.length+"곳","비교 대상 지식산업센터"],
     [CENTERS.filter(c=>c.ready).length+"곳","전부 준공 · 즉시 입주"],
     ["약 "+(gfa/10000).toFixed(1)+"만평","4곳 연면적 합계"],
-    [fmt(park)+"대","주차 합계 (공개 3곳)"]
+    [fmt(park)+"대","4곳 주차 합계"]
   ].map(([b,s])=>`<div class="kpi"><b>${b}</b><small>${s}</small></div>`).join("");
 }
 
