@@ -1,7 +1,7 @@
 /* 홈페이지 상담신청 → 구글 시트 전송 (마곡산단 홈페이지 상담신청 DB) */
 (function () {
   // 구글 Apps Script 웹 앱 배포 주소 (배포 후 이 한 줄만 바꾸면 됩니다)
-  var ENDPOINT = '';
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxHZzGjRHurmWIsE_QFU3aq9z6Od2M6SZD8y7ePnlox1iF6n__tbe4tZA0TEKQicT_q/exec';
 
   var PHONE_RE = /^0\d{1,2}-?\d{3,4}-?\d{4}$/;
 
