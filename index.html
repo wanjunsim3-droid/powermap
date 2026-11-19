@@ -118,5 +118,63 @@
   </div>
 
   <script src="assets/js/app.js?v=20261119_1"></script>
+  <!-- PC 접속 시 센터 비교 안내 팝업 -->
+  <style>
+    #cmp-pop-bg{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9998;display:none;align-items:center;justify-content:center;padding:20px;font-family:'Noto Sans KR','Inter',sans-serif}
+    #cmp-pop{position:relative;word-break:keep-all;width:460px;max-width:100%;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.45);animation:cmpIn .35s cubic-bezier(.2,.8,.2,1)}
+    @keyframes cmpIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+    #cmp-pop .top{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:28px 28px 22px}
+    #cmp-pop .tag{display:inline-block;background:#f97316;color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+    #cmp-pop h2{margin:0;font-size:24px;line-height:1.35;font-weight:800;letter-spacing:-.02em}
+    #cmp-pop .top p{margin:8px 0 0;font-size:14px;opacity:.85}
+    #cmp-pop ul{list-style:none;margin:0;padding:20px 28px 6px;display:grid;gap:10px}
+    #cmp-pop li{font-size:14.5px;color:#334155;display:flex;gap:10px;align-items:flex-start}
+    #cmp-pop li b{color:#0f172a}
+    #cmp-pop .go{display:block;margin:16px 28px 10px;text-align:center;background:#f97316;color:#fff;text-decoration:none;font-weight:800;font-size:16px;padding:15px;border-radius:12px}
+    #cmp-pop .go:hover{background:#ea580c}
+    #cmp-pop .tel{text-align:center;font-size:13px;color:#64748b;margin:0 0 14px}
+    #cmp-pop .bar{display:flex;border-top:1px solid #e2e8f0}
+    #cmp-pop .bar button{flex:1;background:#f8fafc;border:0;padding:13px;font-size:13px;color:#475569;cursor:pointer;font-family:inherit}
+    #cmp-pop .bar button+button{border-left:1px solid #e2e8f0}
+    #cmp-pop .bar button:hover{background:#f1f5f9}
+    #cmp-pop .x{position:absolute;top:12px;right:14px;background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;opacity:.8}
+  </style>
+  <div id="cmp-pop-bg" role="dialog" aria-modal="true" aria-labelledby="cmp-pop-title">
+    <div id="cmp-pop">
+      <button class="x" data-close aria-label="닫기">×</button>
+      <div class="top">
+        <span class="tag">NEW · 센터 비교</span>
+        <h2 id="cmp-pop-title">마곡 지식산업센터 4곳,<br>한 화면에서 비교하세요</h2>
+        <p>아이파크 디어반 · 보타닉게이트 · 뉴브 클라우드힐스 · 마곡 가든스퀘어</p>
+      </div>
+      <ul>
+        <li>📐 <span><b>규모·주차·교통</b>을 표와 그래프로 나란히 비교</span></li>
+        <li>🔎 <span><b>즉시 입주·역세권·대형 사옥</b> 등 조건으로 바로 찾기</span></li>
+        <li>📋 <span>2026년 <b>마곡산단 규제 완화</b> 내용까지 한눈에</span></li>
+      </ul>
+      <a class="go" href="compare.html">📊 센터 비교 바로가기</a>
+      <p class="tel">맞춤 호실 추천 상담 · 대표번호 1666-5984</p>
+      <div class="bar">
+        <button data-today>오늘 하루 보지 않기</button>
+        <button data-close>닫기</button>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='cmpPopHide', bg=document.getElementById('cmp-pop-bg');
+    if(!bg) return;
+    var isPC = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+    var d=new Date(), today=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(), hidden=null;
+    try{ hidden = localStorage.getItem(KEY); }catch(e){}
+    if(!isPC || hidden===today){ bg.remove(); return; }
+    function close(){ bg.style.display='none'; }
+    setTimeout(function(){ bg.style.display='flex'; }, 1200);
+    bg.addEventListener('click', function(e){ if(e.target===bg) close(); });
+    bg.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click', close); });
+    bg.querySelector('[data-today]').addEventListener('click', function(){ try{ localStorage.setItem(KEY,today); }catch(e){} close(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+  })();
+  </script>
 </body>
 </html>
