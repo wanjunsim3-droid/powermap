@@ -159,7 +159,7 @@
       "status": "분양·임대중",
       "available": 8,
       "price_per_sqm": 3100000,
-      "image": "assets/images/botanic_main.png",
+      "image": "assets/images/botanic_view.jpg",
       "detailPage": "center.html?id=botanicgate",
       "features": [
         "서울식물원 바로 앞, 식물원·한강 조망 업무환경",
@@ -187,7 +187,7 @@
       "gallery": [
         {
           "tab": "대표 조감도",
-          "image": "assets/images/botanic_main.png"
+          "image": "assets/images/botanic_view.jpg"
         },
         {
           "tab": "사업개요 및 배치도",
