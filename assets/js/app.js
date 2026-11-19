@@ -285,10 +285,6 @@ function renderDetailViewer(center) {
             <span class="btn-phone-icon">📞</span>
             <span class="btn-phone-num">1666-5984</span>
           </a>
-          <a href="https://open.kakao.com/o/sPlaceholder" target="_blank" class="btn-kakao-chat">
-            <span>💬</span>
-            <span>카카오톡 1:1 빠른 상담</span>
-          </a>
         </div>
         
         <!-- 분양 문의 폼 -->
@@ -401,14 +397,6 @@ function initContactForm(centerName) {
       statusMsg.innerHTML = `
         🎉 상담 예약이 정상적으로 접수되었습니다!<br>
         <strong>${centerName}</strong> 전문 상담사가 영업일 기준 24시간 이내에 연락드리겠습니다.
-        <div style="border-top: 1px dashed rgba(16, 185, 129, 0.3); padding-top: 1rem; margin-top: 1rem;">
-          <p style="font-size: 0.8rem; margin-bottom: 0.5rem; color: #047857; line-height: 1.4;">
-            문의 내용을 카카오톡으로도 전송하시면 훨씬 더 신속한 1:1 안내를 받으실 수 있습니다.
-          </p>
-          <button type="button" class="btn-kakao-send" id="kakao-send-btn">
-            💬 카카오톡으로 문의내용 전송하기
-          </button>
-        </div>
       `;
       statusMsg.style.display = 'block';
       statusMsg.style.color = '#059669';
