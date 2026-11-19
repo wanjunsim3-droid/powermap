@@ -59,7 +59,7 @@ function showError(container, message) {
 
 // 상세 페이지 구조 렌더링
 function renderDetail(container, center) {
-  const statusClass = center.status === '분양중' ? 'status-active' : 'status-pending';
+  const statusClass = (center.status || '').includes('예정') ? 'status-pending' : 'status-active';
   
   // 스펙 테이블 행 생성
   let specsRows = '';

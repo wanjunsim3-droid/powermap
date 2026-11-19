@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>마곡산단 지식산업센터 한눈에 비교</title>
-<meta name="description" content="마곡산업단지 지식산업센터 4곳(아이파크 디어반, 보타닉게이트, 뉴브 클라우드힐스, D18-B)의 규모·주차·교통·입주시기를 한 화면에서 비교합니다." />
+<meta name="description" content="마곡산업단지 지식산업센터 4곳(아이파크 디어반, 보타닉게이트, 뉴브 클라우드힐스, 마곡 가든스퀘어)의 규모·주차·교통·호실 구성을 한 화면에서 비교합니다." />
 <meta property="og:title" content="마곡산단 지식산업센터 한눈에 비교" />
 <meta property="og:description" content="규모·주차·교통·입주시기를 한 화면에서 비교 | 상담 1666-5984" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -159,7 +159,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 90px;font-size:.82rem;col
   <div class="hero">
     <span class="eyebrow">마곡산업단지 R&amp;D 지식산업센터</span>
     <h1>마곡 지식산업센터 4곳,<br><em>한 화면에서 비교</em>하세요</h1>
-    <p>규모·주차·교통·입주시기를 나란히 놓고 보면 우리 회사에 맞는 곳이 보입니다. 비교할 센터를 고르고, 원하는 조건을 눌러 보세요.</p>
+    <p>4곳 모두 준공을 마치고 분양·임대 중입니다. 규모·주차·교통·호실 구성을 나란히 놓고 보면 우리 회사에 맞는 곳이 보입니다. 비교할 센터를 고르고, 원하는 조건을 눌러 보세요.</p>
     <div class="kpis" id="kpis"></div>
   </div>
 
@@ -201,6 +201,16 @@ footer{border-top:1px solid var(--line);padding:24px 0 90px;font-size:.82rem;col
     <div class="points" id="points"></div>
   </section>
 
+  <section>
+    <div class="sec-h"><h2>6. 2025~2026 마곡산단 규제 완화, 무엇이 달라졌나</h2><p>서울시 마곡산업단지 관리기본계획 개정</p></div>
+    <div class="points">
+      <div class="pt"><h3>📏 임대 면적 제한 폐지</h3><ul><li>입주기업 1개사당 임대 상한 120㎡ 폐지</li><li>중대형 기업도 원하는 면적만큼 임차 가능</li></ul></div>
+      <div class="pt"><h3>🏭 입주 업종 확대</h3><ul><li>IT·BT 등 첨단 25개 업종 → 산업집적법 허용 업종까지</li><li>일부 특정 업종 외 대부분 입주 가능</li></ul></div>
+      <div class="pt"><h3>☕ 근린생활시설 확대</h3><ul><li>근생 설치 가능 면적 연면적 3% → 10%</li><li>식당·커피전문점 입점 허용</li></ul></div>
+      <div class="pt"><h3>💡 입주 기업에겐</h3><ul><li>업종 때문에 막혔던 기업도 상담 가능</li><li>입주 가능 여부는 업종코드로 바로 확인해 드립니다</li></ul></div>
+    </div>
+  </section>
+
   <div class="cta">
     <div>
       <h2>우리 회사 조건에 맞는 호실, 바로 추천해 드립니다</h2>
@@ -208,7 +218,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 90px;font-size:.82rem;col
     </div>
     <a href="tel:1666-5984">📞 대표번호 1666-5984</a>
   </div>
-  <p class="disc">※ 본 비교 자료는 각 사업 시행사·분양 자료 및 언론 보도를 바탕으로 정리한 것으로, 실제 계약 조건·호실 현황·입주 가능 업종은 시행사 확인이 필요합니다. 분양가·임대료는 상담 문의.</p>
+  <p class="disc">※ 2026년 11월 기준. 본 비교 자료는 각 사업 시행사·분양 자료 및 언론 보도를 바탕으로 정리한 것으로, 실제 계약 조건·호실 현황·입주 가능 업종은 시행사 확인이 필요합니다. 분양가·임대료는 상담 문의.</p>
 </main>
 
 <footer>
@@ -221,72 +231,71 @@ const CENTERS = [
   {
     id:"ipark", name:"마곡 아이파크 디어반", short:"아이파크 디어반",
     img:"assets/images/ipark_main.png", detail:"center.html?id=ipark",
-    status:"준공 · 즉시입주", ready:true,
+    status:"분양 · 임대 중", ready:true, built:"2024년 7월",
     block:"D18-A", addr:"강서구 마곡중앙8로7길 57",
     developer:"HDC현대산업개발 컨소시엄", builder:"HDC현대산업개발",
     land:3051.02, gfa:21833.03, floors:"지하 5층 ~ 지상 11층", top:11,
     parking:632, parkRatio:"법정 대비 130.85%", bcr:"59.54%", far:"349.93%",
     units:"분양 118실 · 임대 142실", supply:"분양 + 임대",
     station:"9호선 양천향교역 약 300m (도보 3분 이내)", walkMin:3,
-    lines:["9호선","5호선 발산","공항철도 마곡나루"],
     extra:"취득세·재산세 35% 감면(최초 분양 중소기업 직접사용, 요건 확인)",
-    points:["마곡지구 첫 R&D형 지식산업센터, HDC현대산업개발 시공","연면적 약 21,833평 대단지 · 주차 632대","중정 구조로 채광 확보, 메이커스페이스·공용회의실·썬큰플라자","준공 완료 — 계약 후 바로 입주"]
+    points:["마곡지구 첫 R&D형 지식산업센터, HDC현대산업개발 시공","연면적 약 21,833평 · 주차 632대","중정 구조 채광, 메이커스페이스·공용회의실·썬큰플라자","양천향교역 약 300m 초역세권"]
   },
   {
     id:"botanicgate", name:"마곡 보타닉 게이트", short:"보타닉 게이트",
     img:"assets/images/botanic_main.png", detail:"center.html?id=botanicgate",
-    status:"분양 · 임대 중", ready:true,
-    block:"D38", addr:"강서구 마곡동 779",
-    developer:"핍스웨이브개발 컨소시엄", builder:null,
+    status:"분양 · 임대 중", ready:true, built:"2024년 9월",
+    block:"D38", addr:"강서구 마곡동로 166",
+    developer:"핍스웨이브개발 컨소시엄", builder:"계룡건설산업",
     land:1783.93, gfa:11415.39, floors:"지하 4층 ~ 지상 10층", top:10,
     parking:339, parkRatio:"법정 대비 130%", bcr:"59.26%", far:"349.57%",
-    units:"전용 16평형 중심", supply:"분양 + 임대",
-    station:null, walkMin:null, lines:[],
+    units:"전용 16평형 중심 · 지하1층 임대전용 44실", supply:"분양 + 임대",
+    station:"9호선 양천향교역 약 300m (도보 약 5분)", walkMin:5,
     extra:"전용률 48.1%",
-    points:["서울식물원 조망의 쾌적한 업무환경","전용률 48.1% — 실사용 면적 확보","전용 16평형 중심, 소형 사옥 수요에 적합","마곡 내 합리적 분양가 포지션"]
+    points:["서울식물원 바로 앞, 식물원 조망 업무환경","전용률 48.1% — 실사용 면적 확보","전용 16평형 중심, 소형 사옥 수요에 적합","계룡건설 시공, 2024년 9월 준공"]
   },
   {
     id:"newcloudhill", name:"뉴브 클라우드힐스", short:"뉴브 클라우드힐스",
     img:"assets/images/newv_main.png", detail:"center.html?id=newcloudhill",
-    status:"준공 · 즉시입주", ready:true,
+    status:"분양 · 임대 중", ready:true, built:"2025년 6월",
     block:"D13", addr:"강서구 마곡동 779-1",
     developer:"우미건설·현대건설·컴투스·광동제약 컨소시엄", builder:"우미건설 · 현대건설",
     land:4539.44, gfa:30144.63, floors:"지하 4층 ~ 지상 11층", top:11,
     parking:875, parkRatio:null, bcr:"57.05%", far:"349.46%",
     units:"총 272실 (분양 156 · 임대 116)", supply:"분양 + 임대",
     station:"9호선 양천향교역 도보권 · 마곡나루역 인근", walkMin:null,
-    lines:["9호선","공항철도 마곡나루","5호선 발산"],
     extra:"BT동 · IT동 분리 구성, 공유오피스·라운지",
-    points:["마곡 최대 규모 연면적 약 30,144평 · 272실","BT동·IT동 분리 설계, 공유오피스·세미나실","궁산·서울식물원 인접 숲세권","준공 완료, 분양·임대 병행"]
+    points:["마곡 최대 규모 연면적 약 30,144평 · 272실","BT동·IT동 분리 설계, 공유오피스·세미나실","궁산·서울식물원 인접 숲세권","분양·임대 병행, 임대 후 분양 전환 검토 가능"]
   },
   {
-    id:"d18b", name:"마곡 D18-B (엘리프 마곡 가든스퀘어)", short:"D18-B 가든스퀘어",
+    id:"d18b", name:"마곡 가든스퀘어", short:"마곡 가든스퀘어",
     img:"assets/images/d18b_main.png", detail:"center.html?id=d18b",
-    status:"분양 예정 (가격심의)", ready:false,
-    block:"D18-B", addr:"강서구 마곡도시개발구역 D18-B",
-    developer:"(주)유케이아이디", builder:"계룡건설 (엘리프)",
-    land:null, gfa:null, floors:"지하 1층 ~ 지상 10층", top:10,
+    status:"분양 · 임대 중", ready:true, built:"2026년",
+    block:"D18-B", addr:"강서구 마곡동 783-2",
+    developer:"계룡건설 컨소시엄", builder:"계룡건설 (엘리프)",
+    land:null, gfa:22997.7, floors:"지하 1층 ~ 지상 10층", top:10,
     parking:null, parkRatio:null, bcr:null, far:null,
-    units:"섹션오피스 · 근린생활시설", supply:"임대 위주 + 일부 분양",
+    units:"100·200평 대형 사무실 · 500평 이상 사옥 가능", supply:"임대 위주 + 일부 분양",
     station:"9호선 양천향교역 · 5호선 발산역 도보 약 7분", walkMin:7,
-    lines:["9호선","5호선 발산"],
-    extra:"VIP 관심고객 로열층 우선 배정",
-    points:["마곡 마지막 R&D센터 블록","계룡건설 '엘리프' 브랜드 시공","임대 위주 운영 + 제한적 오피스 분양","입주의향서(LOI) 접수로 로열층 우선 배정"]
+    extra:"500평 이상 단독 사옥·R&D센터 임대 가능",
+    points:["마곡 최신 준공(2026) R&D센터, 엘리프 브랜드","연면적 약 23,000평(76,025㎡)","100·200평 대형 사무실, 500평 이상 단독 사옥 임대","임대 위주 운영 + 일부 섹션 분양"]
   }
 ];
 
 const FILTERS = [
-  {k:"ready", label:"🏢 즉시 입주", test:c=>c.ready, rows:["status"]},
+  {k:"ready", label:"🏢 즉시 입주", test:c=>c.ready, rows:["status","built"]},
   {k:"walk", label:"🚇 역 도보 5분 이내", test:c=>c.walkMin!=null&&c.walkMin<=5, rows:["station"]},
   {k:"big", label:"📐 연면적 2만평 이상", test:c=>c.gfa>=20000, rows:["gfa"]},
   {k:"park", label:"🚗 주차 500대 이상", test:c=>c.parking>=500, rows:["parking"]},
   {k:"lease", label:"🔑 임대 입주 가능", test:c=>/임대/.test(c.supply), rows:["supply"]},
   {k:"tall", label:"⬆️ 지상 11층", test:c=>c.top>=11, rows:["floors"]},
+  {k:"large", label:"🏬 대형 사옥(100평+)", test:c=>/100|500|대형/.test(c.units), rows:["units"]},
 ];
 
 const ROWS = [
   {grp:"기본 정보"},
   {k:"status", label:"진행 상태", f:c=>`<span class="badge ${c.ready?'b-ok':'b-wait'}" style="margin:0">${c.status}</span>`},
+  {k:"built", label:"준공", f:c=>c.built&&c.built+" 준공 · 즉시 입주"},
   {k:"block", label:"블록 / 위치", f:c=>`${c.block}<br><small style="color:var(--tx2)">${c.addr}</small>`},
   {k:"developer", label:"사업주체", f:c=>c.developer},
   {k:"builder", label:"시공", f:c=>c.builder},
@@ -317,8 +326,8 @@ function renderKpis(){
   const park = CENTERS.reduce((a,c)=>a+(c.parking||0),0);
   document.getElementById("kpis").innerHTML = [
     [CENTERS.length+"곳","비교 대상 지식산업센터"],
-    [CENTERS.filter(c=>c.ready).length+"곳","즉시 입주 가능"],
-    ["약 "+(gfa/10000).toFixed(1)+"만평","연면적 합계 (공개 3곳)"],
+    [CENTERS.filter(c=>c.ready).length+"곳","전부 준공 · 즉시 입주"],
+    ["약 "+(gfa/10000).toFixed(1)+"만평","4곳 연면적 합계"],
     [fmt(park)+"대","주차 합계 (공개 3곳)"]
   ].map(([b,s])=>`<div class="kpi"><b>${b}</b><small>${s}</small></div>`).join("");
 }

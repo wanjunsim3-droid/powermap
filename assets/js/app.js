@@ -62,7 +62,7 @@ function renderSelectorGrid() {
     card.setAttribute('data-id', center.id);
     
     // 평당가 대신 유선 문의 안내 문구 적용 (방안 B 선택 반영)
-    const statusClass = center.status === '분양중' ? 'status-active' : 'status-pending';
+    const statusClass = (center.status || '').includes('예정') ? 'status-pending' : 'status-active';
     
     const featuresHTML = center.features
       ? `<ul class="card-features">
@@ -184,7 +184,7 @@ function scrollToViewer() {
 // 상단 상세 뷰어 정보 렌더링
 function renderDetailViewer(center) {
   const viewer = document.getElementById('detail-viewer');
-  const statusClass = center.status === '분양중' ? 'status-active' : 'status-pending';
+  const statusClass = (center.status || '').includes('예정') ? 'status-pending' : 'status-active';
   
   // 상세 스펙 테이블 행 빌드
   let specsRows = '';
