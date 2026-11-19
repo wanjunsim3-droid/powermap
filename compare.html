@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>마곡산단 지식산업센터 한눈에 비교</title>
+<meta name="description" content="마곡산업단지 지식산업센터 4곳(아이파크 디어반, 보타닉게이트, 뉴브 클라우드힐스, D18-B)의 규모·주차·교통·입주시기를 한 화면에서 비교합니다." />
+<meta property="og:title" content="마곡산단 지식산업센터 한눈에 비교" />
+<meta property="og:description" content="규모·주차·교통·입주시기를 한 화면에서 비교 | 상담 1666-5984" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--line:#e2e8f0;--line2:#f1f5f9;
+  --tx:#0f172a;--tx2:#475569;--tx3:#94a3b8;
+  --pri:#3b82f6;--pri-d:#2563eb;--pri-soft:rgba(59,130,246,.10);
+  --acc:#f97316;--acc-soft:rgba(249,115,22,.12);
+  --ok:#059669;--ok-soft:rgba(16,185,129,.12);--wait:#d97706;--wait-soft:rgba(245,158,11,.14);
+  --shadow:0 10px 30px -12px rgba(15,23,42,.10),0 1px 3px rgba(15,23,42,.04);
+  --r:16px;
+}
+[data-theme="dark"]{
+  --bg:#0b0f19;--card:#111827;--line:#1f2937;--line2:#161e2e;
+  --tx:#f8fafc;--tx2:#94a3b8;--tx3:#64748b;
+  --pri:#60a5fa;--pri-d:#3b82f6;--pri-soft:rgba(96,165,250,.14);
+  --acc-soft:rgba(249,115,22,.18);
+  --ok:#34d399;--ok-soft:rgba(52,211,153,.15);--wait:#fbbf24;--wait-soft:rgba(251,191,36,.15);
+  --shadow:0 10px 30px -12px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter','Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;transition:background .3s,color .3s;word-break:keep-all}
+a{color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font-weight:800;font-size:1.05rem;text-decoration:none}
+.logo span{color:var(--pri)}
+.hdr-r{display:flex;align-items:center;gap:10px}
+.hdr-phone{font-weight:700;font-size:.9rem;text-decoration:none;padding:8px 14px;border-radius:999px;background:var(--pri-soft);color:var(--pri)}
+#theme{border:1px solid var(--line);background:var(--card);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem}
+
+/* hero */
+.hero{padding:56px 0 28px}
+.eyebrow{display:inline-block;font-size:.8rem;font-weight:700;color:var(--acc);background:var(--acc-soft);padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.hero h1{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:800;line-height:1.25;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--pri)}
+.hero p{color:var(--tx2);margin-top:12px;max-width:720px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.kpi b{display:block;font-size:1.6rem;font-weight:800;letter-spacing:-.02em}
+.kpi small{color:var(--tx2);font-size:.82rem}
+
+section{padding:28px 0}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sec-h h2{font-size:1.35rem;font-weight:800;letter-spacing:-.01em}
+.sec-h p{color:var(--tx2);font-size:.9rem}
+
+/* selector cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{position:relative;background:var(--card);border:2px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s,border-color .2s,opacity .2s;text-align:left;font:inherit;color:inherit}
+.card:hover{transform:translateY(-3px)}
+.card.on{border-color:var(--pri)}
+.card:not(.on){opacity:.55}
+.card .img{aspect-ratio:16/10;background:var(--line2) center/cover no-repeat}
+.card .body{padding:14px 16px 16px}
+.card h3{font-size:1rem;font-weight:800;line-height:1.35}
+.card .sub{font-size:.8rem;color:var(--tx2);margin-top:2px}
+.chk{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:.85rem;color:#fff}
+.card.on .chk{background:var(--pri);border-color:var(--pri)}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;margin-bottom:8px}
+.b-ok{background:var(--ok-soft);color:var(--ok)}
+.b-wait{background:var(--wait-soft);color:var(--wait)}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--tx2);padding:8px 14px;border-radius:999px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s}
+.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.match-note{margin-top:12px;font-size:.88rem;color:var(--tx2);min-height:1.4em}
+.match-note b{color:var(--pri)}
+
+/* table */
+.tbl-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:760px;table-layout:fixed}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line2);font-size:.9rem;vertical-align:top}
+thead th:first-child{width:140px}
+thead th{position:sticky;top:0;background:var(--card);font-weight:800;font-size:.92rem;border-bottom:2px solid var(--line)}
+tbody th{color:var(--tx2);font-weight:600;white-space:nowrap;background:color-mix(in srgb,var(--line2) 50%,transparent)}
+tr.grp th{background:var(--pri-soft);color:var(--pri);font-size:.78rem;letter-spacing:.04em;padding:8px 16px}
+td.best{position:relative;font-weight:700}
+td.best::after{content:"최대";margin-left:6px;font-size:.68rem;font-weight:800;color:var(--acc);background:var(--acc-soft);padding:2px 7px;border-radius:999px;vertical-align:1px}
+td.na{color:var(--tx3)}
+td.hit{background:var(--pri-soft)}
+
+/* bars */
+.charts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.chart h3{font-size:.95rem;font-weight:800}
+.chart .unit{font-size:.78rem;color:var(--tx3);margin-bottom:14px}
+.bar{margin-bottom:12px}
+.bar .lab{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;gap:8px}
+.bar .lab span:first-child{color:var(--tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .lab b{font-variant-numeric:tabular-nums}
+.track{height:10px;background:var(--line2);border-radius:999px;overflow:hidden}
+.fill{height:100%;border-radius:999px;background:var(--pri);transition:width .6s cubic-bezier(.4,0,.2,1)}
+.fill.top{background:var(--acc)}
+.bar.none .lab b{color:var(--tx3);font-weight:500}
+
+/* points */
+.points{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pt{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.pt h3{font-size:.98rem;font-weight:800;margin-bottom:10px}
+.pt ul{list-style:none;display:grid;gap:8px}
+.pt li{font-size:.86rem;color:var(--tx2);padding-left:16px;position:relative}
+.pt li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--pri)}
+.pt .more{display:inline-block;margin-top:12px;font-size:.84rem;font-weight:700;color:var(--pri);text-decoration:none}
+
+/* cta */
+.cta{margin:20px 0 48px;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-radius:20px;padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.cta h2{font-size:1.4rem;font-weight:800}
+.cta p{opacity:.85;font-size:.92rem;margin-top:4px}
+.cta a{background:#fff;color:#1e3a8a;text-decoration:none;font-weight:800;padding:14px 22px;border-radius:999px;white-space:nowrap}
+.disc{font-size:.78rem;color:var(--tx3);margin-top:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 90px;font-size:.82rem;color:var(--tx2);text-align:center}
+
+/* floating */
+.fab{position:fixed;right:18px;bottom:18px;z-index:30;background:var(--acc);color:#fff;text-decoration:none;font-weight:800;padding:13px 20px;border-radius:999px;box-shadow:0 10px 24px -8px rgba(249,115,22,.6)}
+
+.hidden-col{display:none}
+@media (max-width:960px){
+  .cards,.points{grid-template-columns:repeat(2,1fr)}
+  .charts{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:520px){
+  .cards,.points{grid-template-columns:1fr 1fr;gap:10px}
+  .card .body{padding:10px 12px 12px}
+  .card h3{font-size:.88rem}
+  .points{grid-template-columns:1fr}
+  .hdr-phone{display:none}
+  .cta{padding:24px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">마곡산단 <span>지산 비교</span></a>
+    <div class="hdr-r">
+      <a class="hdr-phone" href="tel:1666-5984">📞 1666-5984</a>
+      <button id="theme" aria-label="다크/라이트 전환">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">마곡산업단지 R&amp;D 지식산업센터</span>
+    <h1>마곡 지식산업센터 4곳,<br><em>한 화면에서 비교</em>하세요</h1>
+    <p>규모·주차·교통·입주시기를 나란히 놓고 보면 우리 회사에 맞는 곳이 보입니다. 비교할 센터를 고르고, 원하는 조건을 눌러 보세요.</p>
+    <div class="kpis" id="kpis"></div>
+  </div>
+
+  <section>
+    <div class="sec-h">
+      <h2>1. 비교할 센터 선택</h2>
+      <p>카드를 눌러 비교 대상에 넣거나 뺄 수 있습니다 (최소 2곳)</p>
+    </div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section>
+    <div class="sec-h">
+      <h2>2. 원하는 조건</h2>
+      <p>조건에 맞는 칸이 표에서 파랗게 표시됩니다</p>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="match-note" id="matchNote"></div>
+  </section>
+
+  <section>
+    <div class="sec-h">
+      <h2>3. 상세 비교표</h2>
+      <p>시행사·분양 자료 기준 · <span style="color:var(--acc);font-weight:700">최대</span> = 선택 센터 중 가장 큰 값</p>
+    </div>
+    <div class="tbl-wrap"><table id="tbl"></table></div>
+  </section>
+
+  <section>
+    <div class="sec-h">
+      <h2>4. 숫자로 보는 규모</h2>
+      <p>공개 자료가 없는 항목은 '자료 없음'으로 표시</p>
+    </div>
+    <div class="charts" id="charts"></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>5. 센터별 핵심 포인트</h2></div>
+    <div class="points" id="points"></div>
+  </section>
+
+  <div class="cta">
+    <div>
+      <h2>우리 회사 조건에 맞는 호실, 바로 추천해 드립니다</h2>
+      <p>분양가·임대료·잔여 호실은 수시로 바뀌어 상담 시 최신 기준으로 안내합니다.</p>
+    </div>
+    <a href="tel:1666-5984">📞 대표번호 1666-5984</a>
+  </div>
+  <p class="disc">※ 본 비교 자료는 각 사업 시행사·분양 자료 및 언론 보도를 바탕으로 정리한 것으로, 실제 계약 조건·호실 현황·입주 가능 업종은 시행사 확인이 필요합니다. 분양가·임대료는 상담 문의.</p>
+</main>
+
+<footer>
+  © 2026 마곡산단 공식 분양 대행 · 대표번호 1666-5984 · 담당 심완준
+</footer>
+<a class="fab" href="tel:1666-5984">📞 비교 상담 1666-5984</a>
+
+<script>
+const CENTERS = [
+  {
+    id:"ipark", name:"마곡 아이파크 디어반", short:"아이파크 디어반",
+    img:"assets/images/ipark_main.png", detail:"center.html?id=ipark",
+    status:"준공 · 즉시입주", ready:true,
+    block:"D18-A", addr:"강서구 마곡중앙8로7길 57",
+    developer:"HDC현대산업개발 컨소시엄", builder:"HDC현대산업개발",
+    land:3051.02, gfa:21833.03, floors:"지하 5층 ~ 지상 11층", top:11,
+    parking:632, parkRatio:"법정 대비 130.85%", bcr:"59.54%", far:"349.93%",
+    units:"분양 118실 · 임대 142실", supply:"분양 + 임대",
+    station:"9호선 양천향교역 약 300m (도보 3분 이내)", walkMin:3,
+    lines:["9호선","5호선 발산","공항철도 마곡나루"],
+    extra:"취득세·재산세 35% 감면(최초 분양 중소기업 직접사용, 요건 확인)",
+    points:["마곡지구 첫 R&D형 지식산업센터, HDC현대산업개발 시공","연면적 약 21,833평 대단지 · 주차 632대","중정 구조로 채광 확보, 메이커스페이스·공용회의실·썬큰플라자","준공 완료 — 계약 후 바로 입주"]
+  },
+  {
+    id:"botanicgate", name:"마곡 보타닉 게이트", short:"보타닉 게이트",
+    img:"assets/images/botanic_main.png", detail:"center.html?id=botanicgate",
+    status:"분양 · 임대 중", ready:true,
+    block:"D38", addr:"강서구 마곡동 779",
+    developer:"핍스웨이브개발 컨소시엄", builder:null,
+    land:1783.93, gfa:11415.39, floors:"지하 4층 ~ 지상 10층", top:10,
+    parking:339, parkRatio:"법정 대비 130%", bcr:"59.26%", far:"349.57%",
+    units:"전용 16평형 중심", supply:"분양 + 임대",
+    station:null, walkMin:null, lines:[],
+    extra:"전용률 48.1%",
+    points:["서울식물원 조망의 쾌적한 업무환경","전용률 48.1% — 실사용 면적 확보","전용 16평형 중심, 소형 사옥 수요에 적합","마곡 내 합리적 분양가 포지션"]
+  },
+  {
+    id:"newcloudhill", name:"뉴브 클라우드힐스", short:"뉴브 클라우드힐스",
+    img:"assets/images/newv_main.png", detail:"center.html?id=newcloudhill",
+    status:"준공 · 즉시입주", ready:true,
+    block:"D13", addr:"강서구 마곡동 779-1",
+    developer:"우미건설·현대건설·컴투스·광동제약 컨소시엄", builder:"우미건설 · 현대건설",
+    land:4539.44, gfa:30144.63, floors:"지하 4층 ~ 지상 11층", top:11,
+    parking:875, parkRatio:null, bcr:"57.05%", far:"349.46%",
+    units:"총 272실 (분양 156 · 임대 116)", supply:"분양 + 임대",
+    station:"9호선 양천향교역 도보권 · 마곡나루역 인근", walkMin:null,
+    lines:["9호선","공항철도 마곡나루","5호선 발산"],
+    extra:"BT동 · IT동 분리 구성, 공유오피스·라운지",
+    points:["마곡 최대 규모 연면적 약 30,144평 · 272실","BT동·IT동 분리 설계, 공유오피스·세미나실","궁산·서울식물원 인접 숲세권","준공 완료, 분양·임대 병행"]
+  },
+  {
+    id:"d18b", name:"마곡 D18-B (엘리프 마곡 가든스퀘어)", short:"D18-B 가든스퀘어",
+    img:"assets/images/d18b_main.png", detail:"center.html?id=d18b",
+    status:"분양 예정 (가격심의)", ready:false,
+    block:"D18-B", addr:"강서구 마곡도시개발구역 D18-B",
+    developer:"(주)유케이아이디", builder:"계룡건설 (엘리프)",
+    land:null, gfa:null, floors:"지하 1층 ~ 지상 10층", top:10,
+    parking:null, parkRatio:null, bcr:null, far:null,
+    units:"섹션오피스 · 근린생활시설", supply:"임대 위주 + 일부 분양",
+    station:"9호선 양천향교역 · 5호선 발산역 도보 약 7분", walkMin:7,
+    lines:["9호선","5호선 발산"],
+    extra:"VIP 관심고객 로열층 우선 배정",
+    points:["마곡 마지막 R&D센터 블록","계룡건설 '엘리프' 브랜드 시공","임대 위주 운영 + 제한적 오피스 분양","입주의향서(LOI) 접수로 로열층 우선 배정"]
+  }
+];
+
+const FILTERS = [
+  {k:"ready", label:"🏢 즉시 입주", test:c=>c.ready, rows:["status"]},
+  {k:"walk", label:"🚇 역 도보 5분 이내", test:c=>c.walkMin!=null&&c.walkMin<=5, rows:["station"]},
+  {k:"big", label:"📐 연면적 2만평 이상", test:c=>c.gfa>=20000, rows:["gfa"]},
+  {k:"park", label:"🚗 주차 500대 이상", test:c=>c.parking>=500, rows:["parking"]},
+  {k:"lease", label:"🔑 임대 입주 가능", test:c=>/임대/.test(c.supply), rows:["supply"]},
+  {k:"tall", label:"⬆️ 지상 11층", test:c=>c.top>=11, rows:["floors"]},
+];
+
+const ROWS = [
+  {grp:"기본 정보"},
+  {k:"status", label:"진행 상태", f:c=>`<span class="badge ${c.ready?'b-ok':'b-wait'}" style="margin:0">${c.status}</span>`},
+  {k:"block", label:"블록 / 위치", f:c=>`${c.block}<br><small style="color:var(--tx2)">${c.addr}</small>`},
+  {k:"developer", label:"사업주체", f:c=>c.developer},
+  {k:"builder", label:"시공", f:c=>c.builder},
+  {grp:"규모"},
+  {k:"land", label:"대지면적", num:true, f:c=>c.land&&fmt(c.land)+"평"},
+  {k:"gfa", label:"연면적", num:true, f:c=>c.gfa&&fmt(c.gfa)+"평"},
+  {k:"floors", label:"건축규모", f:c=>c.floors},
+  {k:"bcr", label:"건폐율 / 용적률", f:c=>c.bcr&&`${c.bcr} / ${c.far}`},
+  {k:"units", label:"호실 구성", f:c=>c.units},
+  {grp:"주차 · 교통"},
+  {k:"parking", label:"주차대수", num:true, f:c=>c.parking&&fmt(c.parking)+"대"+(c.parkRatio?`<br><small style="color:var(--tx2)">${c.parkRatio}</small>`:"")},
+  {k:"station", label:"가까운 역", f:c=>c.station},
+  {grp:"입주 조건"},
+  {k:"supply", label:"공급 방식", f:c=>c.supply},
+  {k:"extra", label:"특이사항", f:c=>c.extra},
+  {k:"price", label:"분양가 · 임대료", f:()=>`<a href="tel:1666-5984" style="color:var(--pri);font-weight:700;text-decoration:none;white-space:nowrap">상담 문의 1666-5984</a>`},
+];
+
+const fmt = n => n.toLocaleString("ko-KR",{maximumFractionDigits:0});
+let selected = new Set(CENTERS.map(c=>c.id));
+let active = new Set();
+
+function sel(){ return CENTERS.filter(c=>selected.has(c.id)); }
+
+function renderKpis(){
+  const known = CENTERS.filter(c=>c.gfa);
+  const gfa = known.reduce((a,c)=>a+c.gfa,0);
+  const park = CENTERS.reduce((a,c)=>a+(c.parking||0),0);
+  document.getElementById("kpis").innerHTML = [
+    [CENTERS.length+"곳","비교 대상 지식산업센터"],
+    [CENTERS.filter(c=>c.ready).length+"곳","즉시 입주 가능"],
+    ["약 "+(gfa/10000).toFixed(1)+"만평","연면적 합계 (공개 3곳)"],
+    [fmt(park)+"대","주차 합계 (공개 3곳)"]
+  ].map(([b,s])=>`<div class="kpi"><b>${b}</b><small>${s}</small></div>`).join("");
+}
+
+function renderCards(){
+  document.getElementById("cards").innerHTML = CENTERS.map(c=>`
+    <button class="card ${selected.has(c.id)?'on':''}" data-id="${c.id}" aria-pressed="${selected.has(c.id)}">
+      <div class="img" style="background-image:url('${c.img}')"></div>
+      <span class="chk">${selected.has(c.id)?'✓':''}</span>
+      <div class="body">
+        <span class="badge ${c.ready?'b-ok':'b-wait'}">${c.status}</span>
+        <h3>${c.name}</h3>
+        <div class="sub">${c.block} · ${c.floors.replace(/ ~ /,'~')}</div>
+      </div>
+    </button>`).join("");
+  document.querySelectorAll(".card").forEach(el=>el.onclick=()=>{
+    const id = el.dataset.id;
+    if(selected.has(id)){ if(selected.size<=2) return flash(); selected.delete(id); }
+    else selected.add(id);
+    renderAll();
+  });
+}
+function flash(){
+  const n=document.getElementById("matchNote");
+  n.textContent="비교는 최소 2곳 이상 선택해야 합니다.";
+}
+
+function renderFilters(){
+  document.getElementById("filters").innerHTML = FILTERS.map(f=>
+    `<button class="chip ${active.has(f.k)?'on':''}" data-k="${f.k}">${f.label}</button>`).join("");
+  document.querySelectorAll(".chip").forEach(el=>el.onclick=()=>{
+    active.has(el.dataset.k)?active.delete(el.dataset.k):active.add(el.dataset.k);
+    renderAll();
+  });
+}
+
+function renderNote(){
+  const n = document.getElementById("matchNote");
+  if(!active.size){ n.innerHTML="조건을 고르면 모두 만족하는 센터를 알려드립니다."; return; }
+  const fs = FILTERS.filter(f=>active.has(f.k));
+  const ok = sel().filter(c=>fs.every(f=>f.test(c)));
+  n.innerHTML = ok.length
+    ? `선택한 조건을 모두 만족: <b>${ok.map(c=>c.short).join(", ")}</b>`
+    : `선택한 조건을 모두 만족하는 센터가 없습니다. 조건을 줄이거나 상담(1666-5984)으로 맞춤 추천을 받아 보세요.`;
+}
+
+function renderTable(){
+  const cs = sel();
+  const hitRows = {};
+  FILTERS.filter(f=>active.has(f.k)).forEach(f=>f.rows.forEach(r=>{
+    hitRows[r] = hitRows[r]||[]; hitRows[r].push(f);
+  }));
+  let h = `<thead><tr><th></th>${cs.map(c=>`<th><a href="${c.detail}" style="text-decoration:none">${c.name}</a></th>`).join("")}</tr></thead><tbody>`;
+  ROWS.forEach(r=>{
+    if(r.grp){ h+=`<tr class="grp"><th colspan="${cs.length+1}">${r.grp}</th></tr>`; return; }
+    let max = null;
+    if(r.num){ const vals=cs.map(c=>c[r.k]).filter(v=>v!=null); if(vals.length>1) max=Math.max(...vals); }
+    h += `<tr><th>${r.label}</th>` + cs.map(c=>{
+      const v = r.f(c);
+      const cls = [];
+      if(v==null||v===false) cls.push("na");
+      if(max!=null && c[r.k]===max) cls.push("best");
+      if(hitRows[r.k] && hitRows[r.k].every(f=>f.test(c))) cls.push("hit");
+      return `<td class="${cls.join(' ')}">${v==null||v===false?'자료 없음 · 상담 안내':v}</td>`;
+    }).join("") + `</tr>`;
+  });
+  document.getElementById("tbl").innerHTML = h+"</tbody>";
+}
+
+function renderCharts(){
+  const cs = sel();
+  const defs = [
+    {t:"연면적",u:"단위: 평",v:c=>c.gfa},
+    {t:"주차대수",u:"단위: 대",v:c=>c.parking},
+    {t:"연면적 1,000평당 주차",u:"단위: 대 (주차 여유도)",v:c=>c.gfa&&c.parking?+(c.parking/c.gfa*1000).toFixed(1):null,dec:1},
+  ];
+  document.getElementById("charts").innerHTML = defs.map(d=>{
+    const vals = cs.map(d.v).filter(v=>v!=null);
+    const mx = Math.max(...vals,1);
+    return `<div class="chart"><h3>${d.t}</h3><div class="unit">${d.u}</div>${cs.map(c=>{
+      const v=d.v(c);
+      if(v==null) return `<div class="bar none"><div class="lab"><span>${c.short}</span><b>자료 없음</b></div><div class="track"></div></div>`;
+      return `<div class="bar"><div class="lab"><span>${c.short}</span><b>${d.dec?v.toFixed(1):fmt(v)}</b></div><div class="track"><div class="fill ${v===mx?'top':''}" style="width:${v/mx*100}%"></div></div></div>`;
+    }).join("")}</div>`;
+  }).join("");
+}
+
+function renderPoints(){
+  document.getElementById("points").innerHTML = sel().map(c=>`
+    <div class="pt"><h3>${c.name}</h3><ul>${c.points.map(p=>`<li>${p}</li>`).join("")}</ul>
+    <a class="more" href="${c.detail}">상세 정보 보기 →</a></div>`).join("");
+}
+
+function renderAll(){ renderCards(); renderFilters(); renderNote(); renderTable(); renderCharts(); renderPoints(); }
+
+// theme
+const root=document.documentElement, tbtn=document.getElementById("theme");
+function setTheme(t){ root.setAttribute("data-theme",t); tbtn.textContent=t==="dark"?"☀️":"🌙"; try{localStorage.setItem("cmp-theme",t)}catch(e){} }
+let saved=null; try{saved=localStorage.getItem("cmp-theme")}catch(e){}
+setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));
+tbtn.onclick=()=>setTheme(root.getAttribute("data-theme")==="dark"?"light":"dark");
+
+renderKpis(); renderAll();
+</script>
+</body>
+</html>
