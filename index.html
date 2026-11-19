@@ -162,14 +162,14 @@
   </div>
   <script>
   (function(){
-    var KEY='cmpPopHide', bg=document.getElementById('cmp-pop-bg');
+    var KEY='cmpPopHide2', bg=document.getElementById('cmp-pop-bg');
     if(!bg) return;
-    var isPC = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+    var isPC = window.matchMedia('(min-width: 768px)').matches;
     var d=new Date(), today=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(), hidden=null;
     try{ hidden = localStorage.getItem(KEY); }catch(e){}
     if(!isPC || hidden===today){ bg.remove(); return; }
     function close(){ bg.style.display='none'; }
-    setTimeout(function(){ bg.style.display='flex'; }, 1200);
+    setTimeout(function(){ bg.style.display='flex'; }, 800);
     bg.addEventListener('click', function(e){ if(e.target===bg) close(); });
     bg.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click', close); });
     bg.querySelector('[data-today]').addEventListener('click', function(){ try{ localStorage.setItem(KEY,today); }catch(e){} close(); });
