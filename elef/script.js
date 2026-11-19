@@ -570,24 +570,23 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Save locally for prototype verification
-        const applicantData = {
-            name,
-            phone,
-            interest,
-            area,
-            message,
-            timestamp: new Date().toISOString()
-        };
-
-        // Simulated submission
-        localStorage.setItem('gardenSquare_loi_' + Date.now(), JSON.stringify(applicantData));
-
-        // Sweet modal feedback (custom alert for high-end feel)
-        alert(`🎉 VIP 관심고객 등록 완료!\n\n${name}님, 성공적으로 입주의향 접수가 신청되었습니다.\n빠른 시일 내에 전문 상담사(1666-5984)가 입력하신 번호(${phone})로 배정 및 분양가 특별 할인 상세 정보를 개별 연락드리겠습니다.`);
-        
-        // Reset form
-        loiForm.reset();
+        const btn = loiForm.querySelector('[type=submit]');
+        if (btn) btn.disabled = true;
+        const sender = window.__mgSend || (() => Promise.reject());
+        sender({
+            source: '엘리프 VIP 등록',
+            center: '마곡 가든스퀘어',
+            name, phone, interest, area, message,
+            agree: agree ? 'Y' : 'N'
+        }).then((ok) => {
+            if (btn) btn.disabled = false;
+            if (!ok) return;
+            alert(`VIP 관심고객 등록이 접수되었습니다.\n\n${name}님, 담당자가 입력하신 번호(${phone})로 빠르게 연락드리겠습니다.\n대표번호 1666-5984`);
+            loiForm.reset();
+        }).catch(() => {
+            if (btn) btn.disabled = false;
+            alert('일시적으로 온라인 접수가 되지 않습니다.\n대표번호 1666-5984로 전화 주세요.');
+        });
     });
 
 });
