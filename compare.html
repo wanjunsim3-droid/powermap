@@ -122,6 +122,15 @@ td.hit{background:var(--pri-soft)}
 .pt li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--pri)}
 .pt .more{display:inline-block;margin-top:12px;font-size:.84rem;font-weight:700;color:var(--pri);text-decoration:none}
 
+/* news */
+.news{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.nw{display:flex;flex-direction:column;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.nw:hover{transform:translateY(-2px);border-color:var(--pri)}
+.nw .d{font-size:.75rem;font-weight:800;color:var(--acc)}
+.nw b{font-size:.95rem;line-height:1.4}
+.nw span:last-child{font-size:.84rem;color:var(--tx2)}
+@media (max-width:960px){.news{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.news{grid-template-columns:1fr}}
 /* cta */
 .cta{margin:20px 0 48px;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-radius:20px;padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .cta h2{font-size:1.4rem;font-weight:800}
@@ -209,12 +218,24 @@ footer{border-top:1px solid var(--line);padding:24px 0 90px;font-size:.82rem;col
   </section>
 
   <section>
-    <div class="sec-h"><h2>6. 2025~2026 마곡산단 규제 완화, 무엇이 달라졌나</h2><p>서울시 마곡산업단지 관리기본계획 개정</p></div>
+    <div class="sec-h"><h2>6. 마곡산단 규제 완화, 무엇이 달라졌나</h2><p>서울시 마곡산업단지 관리기본계획 개정</p></div>
     <div class="points">
       <div class="pt"><h3>📏 임대 면적 제한 폐지</h3><ul><li>입주기업 1개사당 임대 상한 120㎡ 폐지</li><li>중대형 기업도 원하는 면적만큼 임차 가능</li></ul></div>
-      <div class="pt"><h3>🏭 입주 업종 확대</h3><ul><li>IT·BT 등 첨단 25개 업종 → 산업집적법 허용 업종까지</li><li>일부 특정 업종 외 대부분 입주 가능</li></ul></div>
+      <div class="pt"><h3>🏭 입주 업종 확대</h3><ul><li>IT·BT·NT·GT·R&amp;D → 산업집적법 시행령 허용 업종까지</li><li>회계·세무, 컨설팅, 영상·출판, 콜센터, 보안서비스 등 새로 입주 가능</li><li>포장·충전업, 부동산 임대업 등 일부는 제외</li></ul></div>
       <div class="pt"><h3>☕ 근린생활시설 확대</h3><ul><li>근생 설치 가능 면적 연면적 3% → 10%</li><li>식당·커피전문점 입점 허용</li></ul></div>
       <div class="pt"><h3>💡 입주 기업에겐</h3><ul><li>업종 때문에 막혔던 기업도 상담 가능</li><li>입주 가능 여부는 업종코드로 바로 확인해 드립니다</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>7. 최근 마곡 소식</h2><p>2026년 11월 20일 기준 · 언론 보도 정리</p></div>
+    <div class="news">
+      <a class="nw" href="https://www.heraldk.com/article/2026110517383784803" target="_blank" rel="noopener"><span class="d">2026.11</span><b>원그로브·코엑스 르웨스트 운영 본격화</b><span>마곡 업무·전시·상업 인프라가 함께 가동되며 대형 업무시설 수요에 관심</span></a>
+      <a class="nw" href="https://biz.heraldcorp.com/article/10897195" target="_blank" rel="noopener"><span class="d">2026.10</span><b>마곡 가든스퀘어, 계룡건설 직접 임대</b><span>준공 완료로 현장 확인 후 바로 계약·입주, 대형 면적 임대 가능</span></a>
+      <a class="nw" href="https://www.newspim.com/news/view/20260814000204" target="_blank" rel="noopener"><span class="d">2026.08</span><b>뉴브 클라우드힐스, 임대 후 분양 전환 제도</b><span>먼저 임대로 입주하고 성장 단계에 맞춰 분양으로 전환 선택</span></a>
+      <a class="nw" href="https://biz.heraldcorp.com/article/10788992" target="_blank" rel="noopener"><span class="d">2026.06</span><b>청라하늘대교 개통, 공항 접근성 개선</b><span>인천공항·영종·청라에서 마곡을 거쳐 도심까지 이동이 편리해짐</span></a>
+      <a class="nw" href="https://center.jisanportal.co.kr/" target="_blank" rel="noopener"><span class="d">2026.05</span><b>마곡 가든스퀘어 사용승인</b><span>마곡산단 지식산업센터 4곳 모두 준공 완료</span></a>
+      <a class="nw" href="https://news.seoul.go.kr/economy/archives/568312" target="_blank" rel="noopener"><span class="d">2025.08</span><b>서울시, 마곡 지산 규제 대폭 완화</b><span>임대 면적 상한 폐지, 음식점 허용, 입주 업종 확대</span></a>
     </div>
   </section>
 
@@ -225,7 +246,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 90px;font-size:.82rem;col
     </div>
     <div class="cta-btns"><a class="home" href="./">🏢 분양센터 바로가기</a><a href="tel:1666-5984">📞 대표번호 1666-5984</a></div>
   </div>
-  <p class="disc">※ 2026년 11월 기준. 본 비교 자료는 각 사업 시행사·분양 자료 및 언론 보도를 바탕으로 정리한 것으로, 실제 계약 조건·호실 현황·입주 가능 업종은 시행사 확인이 필요합니다. 분양가·임대료는 상담 문의.</p>
+  <p class="disc">※ 2026년 11월 20일 기준. 본 비교 자료는 각 사업 시행사·분양 자료 및 언론 보도를 바탕으로 정리한 것으로, 실제 계약 조건·호실 현황·입주 가능 업종은 시행사 확인이 필요합니다. 분양가·임대료는 상담 문의.</p>
 </main>
 
 <footer>
@@ -269,10 +290,10 @@ const CENTERS = [
     developer:"우미건설·현대건설·컴투스·광동제약 컨소시엄", builder:"우미건설 · 현대건설",
     land:4539.44, gfa:30144.63, floors:"지하 4층 ~ 지상 11층", top:11,
     parking:875, parkRatio:null, bcr:"57.05%", far:"349.46%",
-    units:"총 272실 (분양 156 · 임대 116)", supply:"분양 + 임대",
+    units:"총 272실 (분양 156 · 임대 116)", supply:"분양 + 임대 (임대 후 분양 전환 가능)",
     station:"9호선 양천향교역 도보권 · 마곡나루역 인근", walkMin:null,
     extra:"BT동 · IT동 분리 구성, 공유오피스·라운지",
-    points:["마곡 최대 규모 연면적 약 30,144평 · 272실","BT동·IT동 분리 설계, 공유오피스·세미나실","궁산·서울식물원 인접 숲세권","분양·임대 병행, 임대 후 분양 전환 검토 가능"]
+    points:["마곡 최대 규모 연면적 약 30,144평 · 272실","임대로 입주 후 분양 전환 선택 가능","코엑스 마곡 르웨스트(MICE) 인접 — 행사·전시 연계","공유오피스·라운지·세미나실, 서울식물원 조망 호실"]
   },
   {
     id:"d18b", name:"마곡 가든스퀘어", short:"마곡 가든스퀘어",
@@ -282,7 +303,7 @@ const CENTERS = [
     developer:"계룡건설 컨소시엄", builder:"계룡건설 (엘리프)",
     land:3531.9, gfa:22933, floors:"지하 4층 ~ 지상 10층", top:10,
     parking:681, parkRatio:null, bcr:null, far:null,
-    units:"248실 · 40~200평 맞춤 · 대형 사옥 가능", supply:"임대 위주 + 일부 분양",
+    units:"248실 · 40~200평 맞춤 · 대형 사옥 가능", supply:"임대 위주 (계룡건설 직접 임대) + 일부 분양",
     station:"9호선 양천향교역 · 5호선 발산역 도보 약 7분", walkMin:7,
     extra:"기준층 전용 약 519평 · 전용률 약 47.3% · 계룡건설 직접 임대",
     points:["2026년 5월 준공, 마곡산단 최신 R&D센터","연면적 약 22,933평 · 248실 · 주차 681대","기준층 전용 약 519평 — 대형 단독 사옥에 적합","계룡건설 직접 임대 + 일부 분양"]
