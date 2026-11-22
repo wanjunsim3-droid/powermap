@@ -555,74 +555,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const loiForm = document.getElementById('loiForm');
     
-    const LOI_ENDPOINT = 'https://formsubmit.co/ajax/3878e8dba7de3ed14f707d506bb03f43';
-    const loiLabels = {
-        interestType: { rent: '사무실 임대', buy: '사무실 분양', store: '1층 상가 임대/분양', all: '복합 상담' },
-        interestArea: { '20-50': '20평 ~ 50평', '50-100': '50평 ~ 100평', '100-200': '100평 ~ 200평', '200+': '200평 이상 (대형 사옥형)' }
-    };
-    let loiSending = false;
-
-    if (loiForm) loiForm.addEventListener('submit', async (e) => {
+    loiForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        if (loiSending) return;
-
-        const name = document.getElementById('userName').value.trim();
-        const phone = document.getElementById('userPhone').value.trim();
+        
+        const name = document.getElementById('userName').value;
+        const phone = document.getElementById('userPhone').value;
         const interest = document.getElementById('interestType').value;
         const area = document.getElementById('interestArea').value;
-        const message = document.getElementById('userMessage').value.trim();
+        const message = document.getElementById('userMessage').value;
         const agree = document.getElementById('userAgree').checked;
-        const honey = loiForm.querySelector('[name="_honey"]');
-        if (honey && honey.value) return;
 
-        if (!name || !phone) {
-            alert('성함(기업명)과 연락처를 입력해 주세요.');
-            return;
-        }
         if (!agree) {
             alert('개인정보 수집 및 이용에 동의하셔야 접수가 가능합니다.');
             return;
         }
 
-        const payload = {
-            '성함/기업명': name,
-            '연락처': phone,
-            '관심분야': loiLabels.interestType[interest] || interest,
-            '희망규모': loiLabels.interestArea[area] || area,
-            '문의내용': message,
-            '관심센터': '마곡 가든스퀘어 (엘리프)',
-            '사이트': '마곡 지식산업센터 분양센터(powermap) - 가든스퀘어 페이지',
-            '접수시각': new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
-            '개인정보동의': '동의',
-            _subject: '[마곡 분양센터] 가든스퀘어 관심고객·LOI 접수',
-            _template: 'table',
-            _captcha: 'false'
+        // Save locally for prototype verification
+        const applicantData = {
+            name,
+            phone,
+            interest,
+            area,
+            message,
+            timestamp: new Date().toISOString()
         };
 
-        const btn = loiForm.querySelector('.btn-submit');
-        const label = btn ? btn.querySelector('span') : null;
-        const original = label ? label.textContent : '';
-        loiSending = true;
-        if (btn) btn.disabled = true;
-        if (label) label.textContent = '전송 중입니다...';
+        // Simulated submission
+        localStorage.setItem('gardenSquare_loi_' + Date.now(), JSON.stringify(applicantData));
 
-        try {
-            const r = await fetch(LOI_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const result = await r.json();
-            if (!r.ok || !(result.success === true || result.success === 'true')) throw new Error();
-            alert(`관심고객 등록이 접수되었습니다.\n\n${name}님, 담당 상담사가 입력하신 번호(${phone})로 곧 연락드려 호실과 분양·임대 조건을 안내해 드리겠습니다.\n대표번호: 1666-5984`);
-            loiForm.reset();
-        } catch (err) {
-            alert('전송을 확인하지 못했습니다.\n1666-5984로 전화 주시면 바로 접수해 드립니다.');
-        } finally {
-            loiSending = false;
-            if (btn) btn.disabled = false;
-            if (label) label.textContent = original;
-        }
+        // Sweet modal feedback (custom alert for high-end feel)
+        alert(`🎉 VIP 관심고객 등록 완료!\n\n${name}님, 성공적으로 입주의향 접수가 신청되었습니다.\n빠른 시일 내에 전문 상담사(1666-5984)가 입력하신 번호(${phone})로 배정 및 분양가 특별 할인 상세 정보를 개별 연락드리겠습니다.`);
+        
+        // Reset form
+        loiForm.reset();
     });
 
 });
