@@ -13,3 +13,4 @@ scratch/
 Thumbs.db
 .vscode/
 .idea/
+node_modules/
