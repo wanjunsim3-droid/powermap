@@ -6,12 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:v3": "tsc -b && vite build --mode v3",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
     "@astryxdesign/core": "^0.7.17",
     "@astryxdesign/theme-neutral": "^0.7.17",
+    "@astryxdesign/theme-stone": "^0.7.17",
     "@stylexjs/stylex": "^0.19.2",
     "lucide-react": "^1.79.0",
     "react": "^19.3.1",

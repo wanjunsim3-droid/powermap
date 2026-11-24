@@ -10,3 +10,9 @@ cd v2-src
 npm install
 npm run build   # → ../v2 에 결과 생성
 ```
+
+## 디자인 버전
+- `npm run build` → `v2/` (neutral 테마, 기본 첫 화면)
+- `npm run build:v3` → `v3/` (stone 테마, 큰 사진형 첫 화면)
+
+테마 설정은 `src/themes/` 에 있습니다.

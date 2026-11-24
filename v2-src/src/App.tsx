@@ -13,8 +13,7 @@ import { VStack } from '@astryxdesign/core/VStack'
 import { HStack } from '@astryxdesign/core/HStack'
 import { Spinner } from '@astryxdesign/core/Spinner'
 import { Phone, Moon, Sun, BarChart3, ArrowRight } from 'lucide-react'
-import './astryx-themes'
-import { powermapTheme } from './brandTheme'
+import { siteTheme, heroStyle } from 'site-theme'
 import type { Center } from './types'
 import { asset, PHONE } from './types'
 import CenterCard from './CenterCard'
@@ -68,7 +67,7 @@ export default function App() {
 
   return (
     <InternationalizationProvider locale="ko-KR" messages={{ 'ko-KR': koKR }}>
-    <Theme theme={powermapTheme} mode={mode}>
+    <Theme theme={siteTheme} mode={mode}>
       <div className="pm-page">
         <div className="pm-nav">
           <TopNav
@@ -91,7 +90,31 @@ export default function App() {
           />
         </div>
 
-        <header className="pm-hero">
+        {heroStyle === 'photo' ? (
+          <header className="pm-hero-photo">
+            <img className="pm-hero-img" src={asset('assets/images/garden_dusk.jpg')} alt="마곡 가든스퀘어 저녁 외관" />
+            <div className="pm-hero-shade" />
+            {/* 사진 위 글자는 어두운 모드 색으로 표시 */}
+            <Theme theme={siteTheme} mode="dark">
+              <div className="pm-container pm-hero-photo-inner">
+                  <VStack gap={3} hAlign="start">
+              <Badge label="마곡산업단지 R&D 지식산업센터" variant="orange" />
+              <Heading level={1} type="display-2" textWrap="balance">
+                마곡 지식산업센터 4곳,<br />분양·임대 정보를 한곳에서
+              </Heading>
+              <Text type="large" color="secondary" textWrap="pretty">
+                아이파크 디어반 · 보타닉게이트 · 뉴브 클라우드힐스 · 마곡 가든스퀘어. 모두 준공 완료, 즉시 입주 가능합니다.
+              </Text>
+              <HStack gap={2} wrap="wrap">
+                <Button label={`전화 상담 ${PHONE}`} variant="primary" size="lg" href={`tel:${PHONE}`} icon={<Phone size={18} />} />
+                <Button label="4개 센터 한눈에 비교" size="lg" href="../compare.html" icon={<BarChart3 size={18} />} />
+              </HStack>
+            </VStack>
+              </div>
+            </Theme>
+          </header>
+        ) : (
+          <header className="pm-hero">
           <div className="pm-container">
             <VStack gap={3} hAlign="start">
               <Badge label="마곡산업단지 R&D 지식산업센터" variant="orange" />
@@ -107,7 +130,8 @@ export default function App() {
               </HStack>
             </VStack>
           </div>
-        </header>
+          </header>
+        )}
 
         {newest && (
           <div className="pm-container">
